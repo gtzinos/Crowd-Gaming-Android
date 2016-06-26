@@ -1,12 +1,13 @@
 package geotzinos.crowdgaming.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by George on 2016-05-29.
  */
-public class Questionnaire {
+public class Questionnaire implements Serializable {
     private int id;
     private String name;
     private String description;
