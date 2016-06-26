@@ -49,7 +49,7 @@ public class LoginPageController extends AppCompatActivity {
     public void ClickEventManager(View v) {
         switch (v.getId()) {
             case R.id.login_button:
-                //Login();
+                Login();
                 break;
         }
     }
