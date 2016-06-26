@@ -48,10 +48,16 @@ public class User implements Serializable {
     public User() {
     }
 
+    //Constructor
     public User(String name, String surname, String email, String apiTaken) {
+        this(name, surname, apiTaken);
+        this.email = email;
+    }
+
+    //Constructor
+    public User(String name, String surname, String apiTaken) {
         this.name = name;
         this.surname = surname;
-        this.email = email;
         this.apiTaken = apiTaken;
     }
 }
