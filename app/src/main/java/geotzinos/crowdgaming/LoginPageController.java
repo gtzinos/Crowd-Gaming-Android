@@ -43,7 +43,23 @@ public class LoginPageController extends AppCompatActivity {
                 break;
         }
     }
-    
+
+    /**
+     * Validate user credentials before login.
+     *
+     * @return boolean true or false
+     */
+    public boolean ValidateLoginCredentials() {
+        //Validate
+        if (etEmail.getText().toString().equals("") || etPassword.getText().toString().equals("")) {
+            //Wrong values
+            return false;
+        }
+
+        //Correct values
+        return true;
+    }
+
     /*
         Display spinner on Login page
     */
