@@ -7,7 +7,7 @@ import android.support.v7.app.AlertDialog;
 /**
  * Created by George on 2016-06-26.
  */
-public class Effects {
+public class Effect {
 
     //Spinner refference
     private static ProgressDialog spinner;
