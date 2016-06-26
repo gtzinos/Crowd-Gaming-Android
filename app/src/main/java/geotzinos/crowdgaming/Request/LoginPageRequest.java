@@ -1,7 +1,6 @@
 package geotzinos.crowdgaming.Request;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -15,7 +14,6 @@ import java.util.HashMap;
 
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
-import geotzinos.crowdgaming.LoginPageController;
 import geotzinos.crowdgaming.Model.User;
 
 /**
@@ -52,10 +50,11 @@ public class LoginPageRequest {
                                 String api_token = userJSON.getString("api-token");
 
                                 User user = new User(name, surname, api_token);
-                                Intent intent = new Intent(context, LoginPageController.class);
-                                intent.putExtra("user", user);
+                                Effect.CloseSpinner();
+                                //Intent intent = new Intent(context, LoginPageController.class);
+                                //intent.putExtra("user", user);
 
-                                context.startActivity(intent);
+                                //context.startActivity(intent);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

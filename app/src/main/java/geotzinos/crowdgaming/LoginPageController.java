@@ -6,8 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import geotzinos.crowdgaming.Controller.ApplicationController;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.General.Validate;
+import geotzinos.crowdgaming.Request.LoginPageRequest;
 
 public class LoginPageController extends AppCompatActivity {
     //UI Elements
@@ -61,6 +65,8 @@ public class LoginPageController extends AppCompatActivity {
         //Loader
         Effect.ShowSpinner(this, "Loading", "Please wait while trying to login.");
 
+        JsonObjectRequest loginRequest = new LoginPageRequest().Login(this, emailText, passwordText);
+        ApplicationController.getInstance().addToRequestQueue(loginRequest);
 
         loginButton.setEnabled(false);
 
