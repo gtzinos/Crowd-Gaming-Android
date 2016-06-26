@@ -6,20 +6,20 @@ package geotzinos.crowdgaming.General;
 public class Config {
 
     //Debug (Default=false) *Change to false before production
-    public static boolean Debug = false;
+    public final static boolean Debug = false;
 
     //Server domain name or ip address
-    public static String WEB_ROOT = "83.212.118.212";
+    public final static String WEB_ROOT = "http://83.212.118.212/Treasure-Thess-Website/public";
 
     //Application name
-    public static String SHORT_APP_NAME = "Crowd Game";
+    public final static String SHORT_APP_NAME = "Crowd Game";
 
     //Full application name
-    public static String FULL_APP_NAME = "Crowding Game";
+    public final static String FULL_APP_NAME = "Crowding Game";
 
     //Date format for application requests
-    public static String DATE_FORMAT = "DD-MM-YYYY";
+    public final static String DATE_FORMAT = "DD-MM-YYYY";
 
     //Google api key
-    public static String GOOGLE_API_KEY = "AIzaSyCclvgjNy2vp9rD8TrAnbNs4wvXft7hKiY";
+    public final static String GOOGLE_API_KEY = "AIzaSyCclvgjNy2vp9rD8TrAnbNs4wvXft7hKiY";
 }
