@@ -13,9 +13,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import geotzinos.crowdgaming.General.Effects;
+import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.General.Validate;
-import geotzinos.crowdgaming.Request.LoginRequest;
+import geotzinos.crowdgaming.Request.LoginPageRequest;
 
 public class LoginPageController extends AppCompatActivity {
     //UI Elements
@@ -59,15 +59,15 @@ public class LoginPageController extends AppCompatActivity {
         int validationResults = Validate.LoginCredentials(emailText, passwordText);
 
         if (validationResults == -1) {
-            Effects.Alert(LoginPageController.this, "Login failed. Fill a valid email address.", "Okay");
+            Effect.Alert(LoginPageController.this, "Login failed. Fill a valid email address.", "Okay");
             return;
         } else if (validationResults == -2) {
-            Effects.Alert(LoginPageController.this, "Login failed. Fill a valid password.", "Okay");
+            Effect.Alert(LoginPageController.this, "Login failed. Fill a valid password.", "Okay");
             return;
         }
 
         //Loader
-        Effects.ShowSpinner(this, "Loading", "Please wait while trying to login.");
+        Effect.ShowSpinner(this, "Loading", "Please wait while trying to login.");
 
         //Send credentials
         Response.Listener<JSONObject> responseLogin = new Response.Listener<JSONObject>() {
@@ -82,7 +82,7 @@ public class LoginPageController extends AppCompatActivity {
                     JSONObject userJSON = response.getJSONObject("user");
 
                     if (code == 200) {
-                        Effects.CloseSpinner();
+                        Effect.CloseSpinner();
                         //startActivity(new Intent(LoginPageController.this,MyQuestionnairesActivity.class));
                     }
                 } catch (JSONException e) {
@@ -94,7 +94,7 @@ public class LoginPageController extends AppCompatActivity {
         try {
             loginButton.setEnabled(false);
             JSONObject loginData = new JSONObject(dataToConvert);
-            LoginRequest loginRequest = new LoginRequest(loginData, responseLogin, null);
+            LoginPageRequest loginRequest = new LoginPageRequest(loginData, responseLogin, null);
             RequestQueue requests = Volley.newRequestQueue(this);
             requests.add(loginRequest);
 
