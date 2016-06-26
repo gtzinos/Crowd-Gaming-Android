@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
+import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.LoginPageController;
 import geotzinos.crowdgaming.Model.User;
@@ -16,46 +21,52 @@ import geotzinos.crowdgaming.Model.User;
 /**
  * Created by George on 2016-05-29.
  */
-public class LoginPageRequest extends JsonObjectRequest {
-    private static final String LOGIN_URL = "http://83.212.118.212/Treasure-Thess-Website/public/rest_api/authenticate";
+public class LoginPageRequest {
 
-    //private JSONObject credentialsData;
-    public LoginPageRequest(JSONObject body, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        super(Method.POST, LOGIN_URL, body, responseListener, errorListener);
-    }
+    /*
+       Login on platform. Get user personal key.
+    */
+    public JsonObjectRequest Login(final Context context, String email, String password) {
+        final String URL = Config.WEB_ROOT + "rest_api/authenticate";
 
-    public void Login(final Context context, String username, String password) {
-        //Send credentials
-        Response.Listener<JSONObject> responseLogin = new Response.Listener<JSONObject>() {
+        //String dataToConvert = "{\"email\":" + email + ",\"password\":" + password + "}";
 
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("email", email);
+        params.put("password", password);
 
-                    int code = response.getInt("code");
+        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int code = response.getInt("code");
 
-                    JSONObject userJSON = response.getJSONObject("user");
+                            if (code == 200) {
+                                Effect.CloseSpinner();
 
-                    if (code == 200) {
-                        Effect.CloseSpinner();
-                        User user = new User("fasd", "asfd", "AFsd", "AFsd");
-                        Intent intent = new Intent(context, LoginPageController.class);
-                        intent.putExtra("user", user);
+                                JSONObject userJSON = response.getJSONObject("user");
 
-                        context.startActivity(intent);
+                                String name = userJSON.getString("name");
+                                String surname = userJSON.getString("surname");
+                                String api_token = userJSON.getString("api-token");
+
+                                User user = new User(name, surname, api_token);
+                                Intent intent = new Intent(context, LoginPageController.class);
+                                intent.putExtra("user", user);
+
+                                context.startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
             }
-        };
-
-        String dataToConvert = "{\"email\":" + username + ",\"password\":" + password + "}";
-        try {
-            JSONObject loginData = new JSONObject(dataToConvert);
-            LoginPageRequest loginRequest = new LoginPageRequest(loginData, responseLogin, null);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        });
+        return request;
     }
 }
