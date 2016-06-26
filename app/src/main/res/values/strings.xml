@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Crowd Gaming</string>
+    <string name="welcome_title">Welcome to our game</string>
+    <string name="email_address_hint">Email address</string>
+    <string name="password_hint">Password</string>
+    <string name="login_hint">Login</string>
 </resources>
