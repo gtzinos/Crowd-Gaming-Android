@@ -12,6 +12,11 @@ public class Questionnaire implements Serializable {
     private String name;
     private String description;
     private String creationDate;
+    private int time_left;
+    private int time_left_to_end;
+    private int total_questions;
+    private int answered_questions;
+    private int allow_multiple_groups_playthrough;
     private List<QuestionGroup> questionGroupsList;
 
     public int getId() {
@@ -66,9 +71,23 @@ public class Questionnaire implements Serializable {
     }
 
     public Questionnaire(String name, String description, String creationDate, List<QuestionGroup> questionGroupsList) {
-        this.name = name;
-        this.description = description;
-        this.creationDate = creationDate;
+        this(name, description, creationDate);
+        this.questionGroupsList = questionGroupsList;
+    }
+
+    public Questionnaire(String name, String description, String creationDate, int time_left, int time_left_to_end
+            , int total_questions, int answered_questions, int allow_multiple_groups_playthrough) {
+        this(name, description, creationDate);
+        this.time_left = time_left;
+        this.time_left_to_end = time_left_to_end;
+        this.total_questions = total_questions;
+        this.answered_questions = answered_questions;
+        this.allow_multiple_groups_playthrough = allow_multiple_groups_playthrough;
+    }
+
+    public Questionnaire(String name, String description, String creationDate, List<QuestionGroup> questionGroupsList
+            , int time_left, int time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough) {
+        this(name, description, creationDate, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_playthrough);
         this.questionGroupsList = questionGroupsList;
     }
 }
