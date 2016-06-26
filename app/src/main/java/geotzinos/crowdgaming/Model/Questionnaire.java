@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Models;
+package geotzinos.crowdgaming.Model;
 
 import java.util.ArrayList;
 import java.util.List;
