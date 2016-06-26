@@ -2,6 +2,7 @@ package geotzinos.crowdgaming.General;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 
 /**
  * Created by George on 2016-06-26.
@@ -37,4 +38,16 @@ public class Effects {
     public static void CloseSpinner() {
         spinner.dismiss();
     }
+
+    /*
+        Show alert dialog message
+    */
+    public static void Alert(Context context, String message, String positiveButton) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setMessage(message)
+                .setPositiveButton(positiveButton, null)
+                .create()
+                .show();
+    }
+
 }

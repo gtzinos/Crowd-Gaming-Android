@@ -1,7 +1,6 @@
 package geotzinos.crowdgaming;
 
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,10 +13,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import geotzinos.crowdgaming.General.Effects;
+import geotzinos.crowdgaming.General.Validate;
 import geotzinos.crowdgaming.Requests.LoginRequest;
 
 public class LoginPageController extends AppCompatActivity {
@@ -58,7 +55,7 @@ public class LoginPageController extends AppCompatActivity {
      */
     public int ValidateLoginCredentials(String email, String password) {
         //Validate email
-        if (!validateEmailAddress(email)) {
+        if (!Validate.EmailAddress(email)) {
             return -1;
         }
         //Validate password
@@ -70,17 +67,6 @@ public class LoginPageController extends AppCompatActivity {
         return 0;
     }
 
-    /*
-        Login credentials validation
-    */
-    private boolean validateEmailAddress(String emailAddress) {
-        String expression = "^[\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        CharSequence inputStr = emailAddress;
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(inputStr);
-        return matcher.matches();
-    }
-
     public void Login() {
         //Store credentials
         String emailText = etEmail.getText().toString();
@@ -89,18 +75,10 @@ public class LoginPageController extends AppCompatActivity {
         int validationResults = ValidateLoginCredentials(emailText, passwordText);
 
         if (validationResults == -1) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(LoginPageController.this);
-            alert.setMessage("Login failed. Fill a valid email address.")
-                    .setPositiveButton("Okay", null)
-                    .create()
-                    .show();
+            Effects.Alert(LoginPageController.this, "Login failed. Fill a valid email address.", "Okay");
             return;
         } else if (validationResults == -2) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(LoginPageController.this);
-            alert.setMessage("Login failed. Fill a valid password.")
-                    .setPositiveButton("Okay", null)
-                    .create()
-                    .show();
+            Effects.Alert(LoginPageController.this, "Login failed. Fill a valid password.", "Okay");
             return;
         }
 
