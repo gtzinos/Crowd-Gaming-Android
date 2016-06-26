@@ -1,6 +1,5 @@
 package geotzinos.crowdgaming;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +17,7 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import geotzinos.crowdgaming.General.Effects;
 import geotzinos.crowdgaming.Requests.LoginRequest;
 
 public class LoginPageController extends AppCompatActivity {
@@ -26,8 +26,6 @@ public class LoginPageController extends AppCompatActivity {
     private EditText etPassword;
     private Button loginButton;
 
-    //Spinner refference
-    private ProgressDialog spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +105,7 @@ public class LoginPageController extends AppCompatActivity {
         }
 
         //Loader
-        ShowSpinner();
+        Effects.ShowSpinner(this, "Loading", "Please wait while trying to login.");
 
         //Send credentials
         Response.Listener<JSONObject> responseLogin = new Response.Listener<JSONObject>() {
@@ -122,7 +120,7 @@ public class LoginPageController extends AppCompatActivity {
                     JSONObject userJSON = response.getJSONObject("user");
 
                     if (code == 200) {
-                        CloseSpinner();
+                        Effects.CloseSpinner();
                         //startActivity(new Intent(LoginPageController.this,MyQuestionnairesActivity.class));
                     }
                 } catch (JSONException e) {
@@ -144,17 +142,5 @@ public class LoginPageController extends AppCompatActivity {
 
     }
 
-    /*
-        Display spinner on Login page
-    */
-    public void ShowSpinner() {
-        spinner = ProgressDialog.show(LoginPageController.this, "Loading", "Please wait while trying to login...", true);
-    }
 
-    /*
-        Remove spinner from login page
-    */
-    public void CloseSpinner() {
-        spinner.dismiss();
-    }
 }
