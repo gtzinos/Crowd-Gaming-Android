@@ -2,10 +2,20 @@ package geotzinos.crowdgaming;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import geotzinos.crowdgaming.Requests.LoginRequest;
 
 public class LoginPageController extends AppCompatActivity {
     //UI Elements
@@ -58,6 +68,58 @@ public class LoginPageController extends AppCompatActivity {
 
         //Correct values
         return true;
+    }
+
+    public void Login() {
+        if (!ValidateLoginCredentials()) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(LoginPageController.this);
+            alert.setMessage("Login failed. Fill in email and password.")
+                    .setPositiveButton("Okay", null)
+                    .create()
+                    .show();
+            return;
+        }
+
+        //Loader
+        ShowSpinner();
+
+        //Store credentials
+        emailText = etEmail.getText().toString();
+        passwordText = etPassword.getText().toString();
+
+        //Send credentials
+        Response.Listener<JSONObject> responseLogin = new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    loginButton.setEnabled(true);
+
+                    int code = response.getInt("code");
+
+                    JSONObject userJSON = response.getJSONObject("user");
+
+                    if (code == 200) {
+                        CloseSpinner();
+                        //startActivity(new Intent(LoginPageController.this,MyQuestionnairesActivity.class));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        String dataToConvert = "{\"email\":" + emailText + ",\"password\":" + passwordText + "}";
+        try {
+            loginButton.setEnabled(false);
+            JSONObject loginData = new JSONObject(dataToConvert);
+            LoginRequest loginRequest = new LoginRequest(loginData, responseLogin, null);
+            RequestQueue requests = Volley.newRequestQueue(this);
+            requests.add(loginRequest);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /*
