@@ -43,4 +43,18 @@ public class LoginPageController extends AppCompatActivity {
                 break;
         }
     }
+    
+    /*
+        Display spinner on Login page
+    */
+    public void ShowSpinner() {
+        spinner = ProgressDialog.show(LoginPageController.this, "Loading", "Please wait while trying to login...", true);
+    }
+
+    /*
+        Remove spinner from login page
+    */
+    public void CloseSpinner() {
+        spinner.dismiss();
+    }
 }
