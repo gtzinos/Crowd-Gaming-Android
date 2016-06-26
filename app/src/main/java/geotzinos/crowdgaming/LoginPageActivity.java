@@ -14,7 +14,7 @@ import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.General.Validate;
 import geotzinos.crowdgaming.Request.LoginPageRequest;
 
-public class LoginPageController extends AppCompatActivity {
+public class LoginPageActivity extends AppCompatActivity {
     //UI Elements
     private EditText etEmail;
     private EditText etPassword;
@@ -56,10 +56,10 @@ public class LoginPageController extends AppCompatActivity {
         int validationResults = Validate.LoginCredentials(emailText, passwordText);
 
         if (validationResults == -1) {
-            Effect.Alert(LoginPageController.this, "Login failed. Fill a valid email address.", "Okay");
+            Effect.Alert(LoginPageActivity.this, "Login failed. Fill a valid email address.", "Okay");
             return;
         } else if (validationResults == -2) {
-            Effect.Alert(LoginPageController.this, "Login failed. Fill a valid password.", "Okay");
+            Effect.Alert(LoginPageActivity.this, "Login failed. Fill a valid password.", "Okay");
             return;
         }
 
