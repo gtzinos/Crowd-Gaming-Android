@@ -18,4 +18,33 @@ public class Validate {
         Matcher matcher = pattern.matcher(inputStr);
         return matcher.matches();
     }
+
+    /*
+        Verify password length
+    */
+    public static boolean Password(String password) {
+        if (password.length() < 8) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Validate user credentials before login.
+     *
+     * @return int 0 (Correct) -1(Wrong email) -2(Wrong password)
+     */
+    public static int LoginCredentials(String email, String password) {
+        //Validate email
+        if (!EmailAddress(email)) {
+            return -1;
+        }
+        //Validate password
+        else if (!Password(password)) {
+            return -2;
+        }
+
+        //Correct values
+        return 0;
+    }
 }

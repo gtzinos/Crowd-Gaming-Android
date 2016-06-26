@@ -48,31 +48,12 @@ public class LoginPageController extends AppCompatActivity {
         }
     }
 
-    /**
-     * Validate user credentials before login.
-     *
-     * @return boolean true or false
-     */
-    public int ValidateLoginCredentials(String email, String password) {
-        //Validate email
-        if (!Validate.EmailAddress(email)) {
-            return -1;
-        }
-        //Validate password
-        else if (password.length() < 8) {
-            return -2;
-        }
-
-        //Correct values
-        return 0;
-    }
-
     public void Login() {
         //Store credentials
         String emailText = etEmail.getText().toString();
         String passwordText = etPassword.getText().toString();
 
-        int validationResults = ValidateLoginCredentials(emailText, passwordText);
+        int validationResults = Validate.LoginCredentials(emailText, passwordText);
 
         if (validationResults == -1) {
             Effects.Alert(LoginPageController.this, "Login failed. Fill a valid email address.", "Okay");
