@@ -1,9 +1,11 @@
 package geotzinos.crowdgaming.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by George on 2016-05-29.
  */
-public class User {
+public class User implements Serializable {
     private String name;
     private String surname;
     private String email;
