@@ -69,9 +69,5 @@ public class LoginPageController extends AppCompatActivity {
         JsonObjectRequest loginRequest = new LoginPageRequest().Login(this, emailText, passwordText);
         RequestQueue mRequestQueue = Volley.newRequestQueue(this);
         mRequestQueue.add(loginRequest);
-        loginButton.setEnabled(false);
-
     }
-
-
 }
