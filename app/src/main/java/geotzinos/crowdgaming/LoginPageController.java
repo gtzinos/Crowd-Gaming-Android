@@ -6,9 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-import geotzinos.crowdgaming.Controller.ApplicationController;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.General.Validate;
 import geotzinos.crowdgaming.Request.LoginPageRequest;
@@ -66,8 +67,8 @@ public class LoginPageController extends AppCompatActivity {
         Effect.ShowSpinner(this, "Loading", "Please wait while trying to login.");
 
         JsonObjectRequest loginRequest = new LoginPageRequest().Login(this, emailText, passwordText);
-        ApplicationController.getInstance().addToRequestQueue(loginRequest);
-
+        RequestQueue mRequestQueue = Volley.newRequestQueue(this);
+        mRequestQueue.add(loginRequest);
         loginButton.setEnabled(false);
 
     }

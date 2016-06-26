@@ -25,7 +25,7 @@ public class LoginPageRequest {
        Login on platform. Get user personal key.
     */
     public JsonObjectRequest Login(final Context context, String email, String password) {
-        final String URL = Config.WEB_ROOT + "rest_api/authenticate";
+        final String URL = Config.WEB_ROOT + "/rest_api/authenticate";
 
         //String dataToConvert = "{\"email\":" + email + ",\"password\":" + password + "}";
 
