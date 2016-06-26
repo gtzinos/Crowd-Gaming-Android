@@ -6,16 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.General.Validate;
-import geotzinos.crowdgaming.Request.LoginPageRequest;
 
 public class LoginPageController extends AppCompatActivity {
     //UI Elements
@@ -69,38 +61,8 @@ public class LoginPageController extends AppCompatActivity {
         //Loader
         Effect.ShowSpinner(this, "Loading", "Please wait while trying to login.");
 
-        //Send credentials
-        Response.Listener<JSONObject> responseLogin = new Response.Listener<JSONObject>() {
 
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    loginButton.setEnabled(true);
-
-                    int code = response.getInt("code");
-
-                    JSONObject userJSON = response.getJSONObject("user");
-
-                    if (code == 200) {
-                        Effect.CloseSpinner();
-                        //startActivity(new Intent(LoginPageController.this,MyQuestionnairesActivity.class));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        String dataToConvert = "{\"email\":" + emailText + ",\"password\":" + passwordText + "}";
-        try {
-            loginButton.setEnabled(false);
-            JSONObject loginData = new JSONObject(dataToConvert);
-            LoginPageRequest loginRequest = new LoginPageRequest(loginData, responseLogin, null);
-            RequestQueue requests = Volley.newRequestQueue(this);
-            requests.add(loginRequest);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        loginButton.setEnabled(false);
 
     }
 
