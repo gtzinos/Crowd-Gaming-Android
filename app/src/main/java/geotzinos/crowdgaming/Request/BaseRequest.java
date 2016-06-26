@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Requests;
+package geotzinos.crowdgaming.Request;
 
 /**
  * Created by George on 2016-05-29.

@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import geotzinos.crowdgaming.General.Effects;
 import geotzinos.crowdgaming.General.Validate;
-import geotzinos.crowdgaming.Requests.LoginRequest;
+import geotzinos.crowdgaming.Request.LoginRequest;
 
 public class LoginPageController extends AppCompatActivity {
     //UI Elements
@@ -48,6 +48,9 @@ public class LoginPageController extends AppCompatActivity {
         }
     }
 
+    /*
+        Login using api
+    */
     public void Login() {
         //Store credentials
         String emailText = etEmail.getText().toString();

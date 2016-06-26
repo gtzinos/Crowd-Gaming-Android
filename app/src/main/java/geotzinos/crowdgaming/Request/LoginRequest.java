@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Requests;
+package geotzinos.crowdgaming.Request;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
