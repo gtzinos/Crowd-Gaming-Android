@@ -23,10 +23,6 @@ public class LoginPageController extends AppCompatActivity {
     private EditText etPassword;
     private Button loginButton;
 
-    //Saved values
-    private String emailText;
-    private String passwordText;
-
     //Spinner refference
     private ProgressDialog spinner;
 
@@ -59,9 +55,9 @@ public class LoginPageController extends AppCompatActivity {
      *
      * @return boolean true or false
      */
-    public boolean ValidateLoginCredentials() {
+    public boolean ValidateLoginCredentials(String email, String password) {
         //Validate
-        if (etEmail.getText().toString().equals("") || etPassword.getText().toString().equals("")) {
+        if (email.equals("") || password.equals("")) {
             //Wrong values
             return false;
         }
@@ -71,9 +67,13 @@ public class LoginPageController extends AppCompatActivity {
     }
 
     public void Login() {
-        if (!ValidateLoginCredentials()) {
+        //Store credentials
+        String emailText = etEmail.getText().toString();
+        String passwordText = etPassword.getText().toString();
+
+        if (!ValidateLoginCredentials(emailText, passwordText)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(LoginPageController.this);
-            alert.setMessage("Login failed. Fill in email and password.")
+            alert.setMessage("Login failed. Fill a valid email, password.")
                     .setPositiveButton("Okay", null)
                     .create()
                     .show();
@@ -82,10 +82,6 @@ public class LoginPageController extends AppCompatActivity {
 
         //Loader
         ShowSpinner();
-
-        //Store credentials
-        emailText = etEmail.getText().toString();
-        passwordText = etPassword.getText().toString();
 
         //Send credentials
         Response.Listener<JSONObject> responseLogin = new Response.Listener<JSONObject>() {
