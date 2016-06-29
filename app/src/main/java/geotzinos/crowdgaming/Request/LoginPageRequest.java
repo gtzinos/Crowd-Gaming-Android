@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
@@ -16,7 +15,7 @@ import java.util.HashMap;
 import geotzinos.crowdgaming.Controller.MyQuestionnairesActiviry;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
-import geotzinos.crowdgaming.Model.User;
+import geotzinos.crowdgaming.Model.Domain.User;
 
 /**
  * Created by George on 2016-05-29.
@@ -63,7 +62,7 @@ public class LoginPageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
+                Effect.Log("Class LoginPageRequest", error.getMessage());
                 Effect.CloseSpinner();
                 Effect.Alert(context, "Wrong username or password.", "Okay");
             }
