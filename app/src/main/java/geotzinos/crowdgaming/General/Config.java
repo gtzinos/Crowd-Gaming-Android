@@ -11,6 +11,9 @@ public class Config {
     //Server domain name or ip address
     public final static String WEB_ROOT = "http://83.212.118.212/Treasure-Thess-Website/public";
 
+    //Mysqli database name
+    public final static String LOCAL_DATABASE_NAME = "CrowdGaming";
+
     //Application name
     public final static String SHORT_APP_NAME = "Crowd Game";
 
