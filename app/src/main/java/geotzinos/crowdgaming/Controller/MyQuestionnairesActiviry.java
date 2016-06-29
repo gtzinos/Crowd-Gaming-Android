@@ -9,7 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import geotzinos.crowdgaming.General.Effect;
-import geotzinos.crowdgaming.Model.User;
+import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
 

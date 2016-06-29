@@ -1,6 +1,7 @@
-package geotzinos.crowdgaming;
+package geotzinos.crowdgaming.Controller;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.General.Validate;
+import geotzinos.crowdgaming.R;
 import geotzinos.crowdgaming.Request.LoginPageRequest;
 
 public class LoginPageActivity extends AppCompatActivity {
@@ -19,10 +21,9 @@ public class LoginPageActivity extends AppCompatActivity {
     private EditText etEmail;
     private EditText etPassword;
     private Button loginButton;
-
-
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page_view);
 
@@ -30,6 +31,14 @@ public class LoginPageActivity extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.emailTextField);
         etPassword = (EditText) findViewById(R.id.passwordTextField);
         loginButton = (Button) findViewById(R.id.login_button);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     /**
