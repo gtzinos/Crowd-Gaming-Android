@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Model;
+package geotzinos.crowdgaming.Model.Domain;
 
 import java.util.List;
 

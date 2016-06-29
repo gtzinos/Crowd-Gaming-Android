@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Model;
+package geotzinos.crowdgaming.Model.Domain;
 
 /**
  * Created by George on 2016-05-29.
