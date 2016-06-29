@@ -37,10 +37,12 @@ public class Validate {
     public static int LoginCredentials(String email, String password) {
         //Validate email
         if (!EmailAddress(email)) {
+            Effect.Log("Class Validate", "Wrong email address value.");
             return -1;
         }
         //Validate password
         else if (!Password(password)) {
+            Effect.Log("Class Validate", "Wrong password value.");
             return -2;
         }
 
