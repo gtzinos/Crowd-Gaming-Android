@@ -6,7 +6,7 @@ package geotzinos.crowdgaming.General;
 public class Config {
 
     //Debug (Default=false) *Change to false before production
-    public final static boolean Debug = false;
+    public final static boolean Debug = true;
 
     //Server domain name or ip address
     public final static String WEB_ROOT = "http://83.212.118.212/Treasure-Thess-Website/public";
