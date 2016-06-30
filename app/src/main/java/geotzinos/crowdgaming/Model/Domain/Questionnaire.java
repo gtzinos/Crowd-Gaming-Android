@@ -27,6 +27,46 @@ public class Questionnaire implements Serializable {
         this.id = id;
     }
 
+    public int getTime_left() {
+        return time_left;
+    }
+
+    public void setTime_left(int time_left) {
+        this.time_left = time_left;
+    }
+
+    public int getTime_left_to_end() {
+        return time_left_to_end;
+    }
+
+    public void setTime_left_to_end(int time_left_to_end) {
+        this.time_left_to_end = time_left_to_end;
+    }
+
+    public int getAnswered_questions() {
+        return answered_questions;
+    }
+
+    public void setAnswered_questions(int answered_questions) {
+        this.answered_questions = answered_questions;
+    }
+
+    public int getTotal_questions() {
+        return total_questions;
+    }
+
+    public void setTotal_questions(int total_questions) {
+        this.total_questions = total_questions;
+    }
+
+    public int getAllow_multiple_groups_playthrough() {
+        return allow_multiple_groups_playthrough;
+    }
+
+    public void setAllow_multiple_groups_playthrough(int allow_multiple_groups_playthrough) {
+        this.allow_multiple_groups_playthrough = allow_multiple_groups_playthrough;
+    }
+
     public String getName() {
         return name;
     }
