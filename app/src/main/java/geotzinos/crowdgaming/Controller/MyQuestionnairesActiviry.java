@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -11,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 
+import geotzinos.crowdgaming.Controller.Adapter.MyQuestionnairesAdapter;
 import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
@@ -18,6 +20,8 @@ import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 
 public class MyQuestionnairesActiviry extends AppCompatActivity {
+    /* Variables */
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +40,18 @@ public class MyQuestionnairesActiviry extends AppCompatActivity {
         RequestQueue mRequestQueue = Volley.newRequestQueue(this);
         mRequestQueue.add(request);
 
-        ArrayList<Questionnaire> questionnaires;
+        ArrayList<Questionnaire> questionnaires = null;
         boolean found = false;
 
-        while (found) {
+        while (!found) {
             Bundle extras = intent.getExtras();
             if (extras != null) {
                 if (extras.containsKey("questionnaires")) {
                     questionnaires = (ArrayList<Questionnaire>) intent.getSerializableExtra("questionnaires");
+                    found = true;
                     break;
                 } else {
-                    // Execute some code after 2 seconds have passed
+                    // Execute some code after 100 ms have passed
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -56,10 +61,9 @@ public class MyQuestionnairesActiviry extends AppCompatActivity {
                     }, 100);
                 }
             }
-
         }
-
-
+        listView = (ListView) findViewById(R.id.MyQuestionnairesListView);
+        listView.setAdapter(new MyQuestionnairesAdapter(this, questionnaires));
 
 
     }
