@@ -1,8 +1,6 @@
 package geotzinos.crowdgaming.Controller.Request;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -13,14 +11,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import geotzinos.crowdgaming.Core.Database.Database;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
+import geotzinos.crowdgaming.Model.Mapper.QuestionnaireMapper;
 
 /**
  * Created by George on 2016-06-26.
@@ -40,7 +39,7 @@ public class MyQuestionnairesPageRequest {
                             if (code == 200) {
                                 Effect.Log("Class MyQuestionnairesPageRequest", "Get questionnaires request completed.");
                                 JSONArray questionnairesJArray = response.getJSONArray("questionnaire");
-                                ArrayList<Questionnaire> questionnairesList = new ArrayList<Questionnaire>();
+                                QuestionnaireMapper questionnaireMapper = new QuestionnaireMapper(new Database(context));
                                 for (int i = 0; i < questionnairesJArray.length(); i++) {
                                     JSONObject questionnaireJObject = questionnairesJArray.getJSONObject(i);
                                     String name = questionnaireJObject.getString("name");
@@ -50,14 +49,11 @@ public class MyQuestionnairesPageRequest {
                                     int time_left_to_end = questionnaireJObject.getInt("time-left-to-end");
                                     int total_questions = questionnaireJObject.getInt("total-questions");
                                     int answered_questions = questionnaireJObject.getInt("answered-questions");
-                                    int allow_multiple_groups_playthrough = questionnaireJObject.getInt("allow-multiple-groups-playthrough");
+                                    int allow_multiple_groups_play_through = questionnaireJObject.getInt("allow-multiple-groups-playthrough");
 
-                                    Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_playthrough);
-                                    questionnairesList.add(i, questionnaire);
+                                    Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through);
+                                    questionnaireMapper.insertQuestionnaire(questionnaire);
                                 }
-                                //Database database = new Database(context);
-                                Intent intent = ((Activity) context).getIntent();
-                                intent.putExtra("questionnaires", questionnairesList);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
