@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Request;
+package geotzinos.crowdgaming.Controller.Request;
 
 import android.app.Activity;
 import android.content.Context;
