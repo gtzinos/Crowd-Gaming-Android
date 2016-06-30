@@ -11,11 +11,11 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 
+import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
-import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
 
 public class MyQuestionnairesActiviry extends AppCompatActivity {
 
