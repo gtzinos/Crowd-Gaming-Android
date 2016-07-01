@@ -4,4 +4,6 @@
     <string name="email_address_hint">Email address</string>
     <string name="password_hint">Password</string>
     <string name="login_hint">Login</string>
+    <string name="my_questionnaire">My Questionnaire</string>
+    <string name="play_now">Play now</string>
 </resources>
