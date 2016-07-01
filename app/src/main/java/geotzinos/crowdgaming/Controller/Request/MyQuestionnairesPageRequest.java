@@ -1,6 +1,7 @@
 package geotzinos.crowdgaming.Controller.Request;
 
 import android.content.Context;
+import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -11,22 +12,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import geotzinos.crowdgaming.Core.Database.Database;
+import geotzinos.crowdgaming.Controller.Adapter.MyQuestionnairesAdapter;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
-import geotzinos.crowdgaming.Model.Mapper.QuestionnaireMapper;
 
 /**
  * Created by George on 2016-06-26.
  */
 public class MyQuestionnairesPageRequest {
 
-    public JsonObjectRequest GetQuestionnaires(final Context context, final User user) {
+    public JsonObjectRequest GetQuestionnaires(final Context context, final User user, final ListView listView) {
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/";
 
         JsonObjectRequest request = new JsonObjectRequest(URL, null,
@@ -37,9 +38,8 @@ public class MyQuestionnairesPageRequest {
                             int code = response.getInt("code");
 
                             if (code == 200) {
-                                Effect.Log("Class MyQuestionnairesPageRequest", "Get questionnaires request completed.");
                                 JSONArray questionnairesJArray = response.getJSONArray("questionnaire");
-                                QuestionnaireMapper questionnaireMapper = new QuestionnaireMapper(new Database(context));
+                                ArrayList<Questionnaire> questionnaireArrayList = new ArrayList<Questionnaire>();
                                 for (int i = 0; i < questionnairesJArray.length(); i++) {
                                     JSONObject questionnaireJObject = questionnairesJArray.getJSONObject(i);
                                     String name = questionnaireJObject.getString("name");
@@ -52,8 +52,10 @@ public class MyQuestionnairesPageRequest {
                                     int allow_multiple_groups_play_through = questionnaireJObject.getInt("allow-multiple-groups-playthrough");
 
                                     Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through);
-                                    questionnaireMapper.insertQuestionnaire(questionnaire);
+                                    questionnaireArrayList.add(questionnaire);
                                 }
+                                listView.setAdapter(new MyQuestionnairesAdapter(context, questionnaireArrayList));
+                                Effect.Log("Class MyQuestionnairesPageRequest", "Get questionnaires request completed.");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
