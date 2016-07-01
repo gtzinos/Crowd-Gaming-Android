@@ -6,6 +6,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 
 import geotzinos.crowdgaming.Core.Database.Database;
+import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 
 /**
@@ -21,7 +22,7 @@ public class QuestionnaireMapper {
     /*
         Insert questionnaire into database
     */
-    public boolean insertQuestionnaire(Questionnaire questionnaire) {
+    public boolean InsertQuestionnaire(Questionnaire questionnaire) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", questionnaire.getName());
         contentValues.put("description", questionnaire.getDescription());
@@ -33,15 +34,16 @@ public class QuestionnaireMapper {
         contentValues.put("allow_multiple_groups_play_through", questionnaire.getAllow_multiple_groups_playthrough());
 
         database.getWritableDatabase().insert("questionnaires", null, contentValues);
+        Effect.Log("Class QuestionnaireMapper", "Questionnaire inserted successfully.");
         return true;
     }
 
     /*
         Get questionnaires from database
     */
-    public ArrayList<Questionnaire> getQuestionnaires() {
-
-        Cursor cursor = database.getWritableDatabase().rawQuery("Select * from questionnaires", null);
+    public ArrayList<Questionnaire> GetQuestionnaires() {
+        String[] columns = {"name", "description", "creation_date", "time_left", "time_left_to_end", "total_questions", "answered_questions", "allow_multiple_groups_play_through"};
+        Cursor cursor = database.getWritableDatabase().query("questionnaires", columns, null, null, null, null, null);
         ArrayList<Questionnaire> questionnairesList = new ArrayList<Questionnaire>();
 
         while (cursor.moveToNext()) {
@@ -58,6 +60,7 @@ public class QuestionnaireMapper {
             questionnairesList.add(questionnaire);
         }
 
+        Effect.Log("Class QuestionnaireMapper", "GetQuestionnaires completed successfully.");
         return questionnairesList;
     }
 }
