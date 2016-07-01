@@ -34,12 +34,12 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return questionnaires.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return questionnaires.get(position).getId();
     }
 
     public class Holder {
@@ -58,6 +58,11 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
         holder.questionnaireNameTextView = (TextView) rowView.findViewById(R.id.QuestionnaireNameTextView);
         holder.questionnaireDescriptionTextView = (TextView) rowView.findViewById(R.id.DescriptionTextView);
         holder.playQuestionnaireButton = (Button) rowView.findViewById(R.id.PlayButton);
+
+
+        holder.timeLeftTextView.setText("" + questionnaires.get(position).getTime_left());
+        holder.questionnaireNameTextView.setText(questionnaires.get(position).getName());
+        holder.questionnaireDescriptionTextView.setText(questionnaires.get(position).getDescription());
         return rowView;
     }
 }
