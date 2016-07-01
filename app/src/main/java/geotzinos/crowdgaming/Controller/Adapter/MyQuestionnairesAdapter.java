@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.R;
@@ -78,36 +79,22 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
             holder.playQuestionnaireButton.setActivated(false);
             holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#f0ad4e'>Not scheduled yet.</font></div>"));
         } else {
-            long milliseconds = questionnaires.get(position).getTime_left() * 60000;
-            CountDownTimer timer = new CountDownTimer(milliseconds, 100) {
+            final long milliseconds = questionnaires.get(position).getTime_left() * 60000;
+            CountDownTimer timer = new CountDownTimer(milliseconds, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    long days = 0, hours = 0, minutes = 0, seconds = 0;
-                    String timerValue = "";
-
-                    seconds = millisUntilFinished / 1000;
-
-                    days = seconds / 86400;
-                    if (days > 0) {
-                        seconds = seconds % 86400;
-                        timerValue += days + "d ";
-                    }
-
-                    hours = seconds / 3600;
-                    if (hours > 0) {
-                        seconds = seconds % 3600;
-                    }
-                    timerValue += hours + ":";
-
-                    minutes = seconds / 60;
-                    if (minutes > 0) {
-                        seconds = seconds % 60;
-                    }
-                    timerValue += minutes + ":";
-
-                    timerValue += seconds;
-
-                    holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + timerValue + "</font></div>"));
+                    //holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + timerValue + "</font></div>"));
+                    holder.timeLeftTextView.setText(String.valueOf(String.format(
+                            "%02d:%02d:%02d",
+                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                                    - TimeUnit.HOURS
+                                    .toMinutes(TimeUnit.MILLISECONDS
+                                            .toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                                    - TimeUnit.MINUTES
+                                    .toSeconds(TimeUnit.MILLISECONDS
+                                            .toMinutes(millisUntilFinished)))));
                 }
 
                 @Override
