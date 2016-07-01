@@ -1,6 +1,7 @@
 package geotzinos.crowdgaming.Controller.Adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,10 +60,9 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
         holder.questionnaireDescriptionTextView = (TextView) rowView.findViewById(R.id.DescriptionTextView);
         holder.playQuestionnaireButton = (Button) rowView.findViewById(R.id.PlayButton);
 
-
         holder.timeLeftTextView.setText("" + questionnaires.get(position).getTime_left());
         holder.questionnaireNameTextView.setText(questionnaires.get(position).getName());
-        holder.questionnaireDescriptionTextView.setText(questionnaires.get(position).getDescription());
+        holder.questionnaireDescriptionTextView.setText(Html.fromHtml(questionnaires.get(position).getDescription()));
         return rowView;
     }
 }
