@@ -87,7 +87,17 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/PlayQuestionGroupButtonLayout">
+        android:id="@+id/QuestionGroupButtonLayout">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:id="@+id/ResetQuestionGroup"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:background="#337ab7"
+            android:layout_marginRight="10dp" />
 
         <Button
             android:layout_width="fill_parent"
@@ -95,7 +105,9 @@
             android:text="@string/play_now"
             android:id="@+id/PlayQuestionGroupButton"
             android:background="#337ab7"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp" />
     </LinearLayout>
 
 </LinearLayout>
