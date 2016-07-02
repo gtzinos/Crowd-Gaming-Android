@@ -19,6 +19,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
+import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
@@ -26,15 +27,25 @@ import geotzinos.crowdgaming.R;
 public class PlayQuestionnaireActivity extends AppCompatActivity {
     ListView listView;
     TextView timeLeftTextView;
+    static boolean active = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_questionnaire_view);
+        Effect.Log("PlayQuestionnaireActivity", "Activity created.");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        active = false;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        active = true;
         //Get extra values
         Intent intent = getIntent();
         Questionnaire questionnaire = (Questionnaire) intent.getSerializableExtra("questionnaire");
@@ -71,21 +82,29 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setMessage("Questionnaire completed.")
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                if (context == null || !active) {
+                    return;
+                }
 
-                                Intent intent = new Intent(context, MyQuestionnairesActiviry.class);
-                                intent.putExtra("user", user);
-                                context.startActivity(intent);
-                                finish();
-
-                            }
-                        })
-                        .create()
-                        .show();
+                try {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setMessage("Questionnaire completed.")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (context != null && active) {
+                                        Intent intent = new Intent(context, MyQuestionnairesActiviry.class);
+                                        intent.putExtra("user", user);
+                                        context.startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                            })
+                            .create()
+                            .show();
+                } catch (Exception e) {
+                    Effect.Log("PlayQuestionnairesActivity", e.getMessage());
+                }
             }
         }.start();
     }
