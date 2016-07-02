@@ -1,17 +1,26 @@
 package geotzinos.crowdgaming.Model.Domain;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by George on 2016-05-29.
  */
 public class QuestionGroup {
+    private int id;
     private String name;
     private double latitude;
     private double longitude;
     private int radius;
     private String creationDate;
-    private List<Question> questionsList;
+    private ArrayList<Question> questionsList;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -53,11 +62,11 @@ public class QuestionGroup {
         this.creationDate = creationDate;
     }
 
-    public List<Question> getQuestionsList() {
+    public ArrayList<Question> getQuestionsList() {
         return questionsList;
     }
 
-    public void setQuestionsList(List<Question> questionsList) {
+    public void setQuestionsList(ArrayList<Question> questionsList) {
         this.questionsList = questionsList;
     }
 
@@ -65,7 +74,8 @@ public class QuestionGroup {
     public QuestionGroup() {
     }
 
-    public QuestionGroup(String name, double latitude, double longitude, int radius, String creationDate) {
+    public QuestionGroup(int id, String name, double latitude, double longitude, int radius, String creationDate) {
+        this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -73,7 +83,8 @@ public class QuestionGroup {
         this.creationDate = creationDate;
     }
 
-    public QuestionGroup(String name, double latitude, double longitude, int radius, String creationDate, List<Question> questionsList) {
+    public QuestionGroup(int id, String name, double latitude, double longitude, int radius, String creationDate, ArrayList<Question> questionsList) {
+        this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
