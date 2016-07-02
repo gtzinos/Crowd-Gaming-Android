@@ -1,5 +1,6 @@
 package geotzinos.crowdgaming.Controller.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -12,10 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
+import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 
 /**
@@ -80,8 +83,10 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
                 holder.playQuestionnaireButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        User user = (User)((Activity)context).getIntent().getSerializableExtra("user");
                         Intent intent = new Intent(context, PlayQuestionnaireActivity.class);
                         intent.putExtra("questionnaire", questionnaires.get(position));
+                        intent.putExtra("user",user);
                         context.startActivity(intent);
                     }
                 });
@@ -96,7 +101,7 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
             CountDownTimer timer = new CountDownTimer(milliseconds, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + String.valueOf(String.format(
+                    holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + String.valueOf(String.format(Locale.getDefault(),
                             "%02d:%02d:%02d",
                             TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
                             TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
