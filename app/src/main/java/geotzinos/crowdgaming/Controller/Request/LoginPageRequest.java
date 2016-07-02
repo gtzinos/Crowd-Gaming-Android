@@ -50,6 +50,7 @@ public class LoginPageRequest {
 
                                 User user = new User(name, surname, api_token);
                                 Effect.CloseSpinner();
+                                Effect.Alert(context, "Welcome " + user.getName() + " " + user.getSurname(), "Okay");
                                 Intent intent = new Intent(context, MyQuestionnairesActiviry.class);
                                 intent.putExtra("user", user);
 
