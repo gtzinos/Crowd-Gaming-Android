@@ -83,8 +83,7 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
             CountDownTimer timer = new CountDownTimer(milliseconds, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    //holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + timerValue + "</font></div>"));
-                    holder.timeLeftTextView.setText(String.valueOf(String.format(
+                    holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + String.valueOf(String.format(
                             "%02d:%02d:%02d",
                             TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
                             TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
@@ -94,7 +93,7 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
                             TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                                     - TimeUnit.MINUTES
                                     .toSeconds(TimeUnit.MILLISECONDS
-                                            .toMinutes(millisUntilFinished)))));
+                                            .toMinutes(millisUntilFinished))) + "</font></div>")));
                 }
 
                 @Override
