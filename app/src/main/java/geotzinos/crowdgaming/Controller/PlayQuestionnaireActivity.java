@@ -33,7 +33,6 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_questionnaire_view);
         Effect.Log("PlayQuestionnaireActivity", "Activity created.");
-
     }
 
     @Override
@@ -63,7 +62,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
     }
 
     private void StartQuestionnaireTimer(final Context context, long time_left, final User user) {
-        final long milliseconds = 5000;
+        final long milliseconds = time_left * 60000;
         CountDownTimer timer = new CountDownTimer(milliseconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
