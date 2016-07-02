@@ -6,19 +6,19 @@ import java.util.ArrayList;
  * Created by George on 2016-05-29.
  */
 public class Question {
-    private int id;
+    private long id;
     private String text;
     private double weight;
     private String creationDate;
     private double timeToAnswer;
     private ArrayList<Answer> answersList;
 
-    public int getId() {
+    public long getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -66,14 +66,14 @@ public class Question {
     public Question() {
     }
 
-    public Question(int id, String text, double weight, String creationDate) {
+    public Question(long id, String text, double weight, String creationDate) {
         this.id = id;
         this.text = text;
         this.weight = weight;
         this.creationDate = creationDate;
     }
 
-    public Question(int id, String text, double weight, String creationDate, ArrayList<Answer> answersList) {
+    public Question(long id, String text, double weight, String creationDate, ArrayList<Answer> answersList) {
         this.id = id;
         this.text = text;
         this.weight = weight;
