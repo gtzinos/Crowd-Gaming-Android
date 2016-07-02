@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by George on 2016-05-29.
  */
 public class QuestionGroup {
-    private int id;
+    private long id;
     private String name;
     private String latitude;
     private String longitude;
@@ -14,11 +14,11 @@ public class QuestionGroup {
     private String creationDate;
     private ArrayList<Question> questionsList;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -74,7 +74,7 @@ public class QuestionGroup {
     public QuestionGroup() {
     }
 
-    public QuestionGroup(int id, String name, String latitude, String longitude, String radius, String creationDate) {
+    public QuestionGroup(long id, String name, String latitude, String longitude, String radius, String creationDate) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -83,7 +83,7 @@ public class QuestionGroup {
         this.creationDate = creationDate;
     }
 
-    public QuestionGroup(int id, String name, String latitude, String longitude, String radius, String creationDate, ArrayList<Question> questionsList) {
+    public QuestionGroup(long id, String name, String latitude, String longitude, String radius, String creationDate, ArrayList<Question> questionsList) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
