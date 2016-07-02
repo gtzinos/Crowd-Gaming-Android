@@ -10,7 +10,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
-import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 
@@ -29,7 +28,6 @@ public class MyQuestionnairesActiviry extends AppCompatActivity {
         super.onStart();
         Intent intent = getIntent();
         User user = (User) intent.getSerializableExtra("user");
-        Effect.Alert(this, "Welcome " + user.getName() + " " + user.getSurname(), "Okay");
         listView = (ListView) findViewById(R.id.MyQuestionnairesListView);
         JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionnaires(this, user, listView);
         RequestQueue mRequestQueue = Volley.newRequestQueue(this);
