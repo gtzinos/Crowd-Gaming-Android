@@ -17,7 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.MyQuestionnairesActiviry"></activity>
+        <activity android:name=".Controller.MyQuestionnairesActiviry" />
+        <activity android:name=".Controller.PlayQuestionnaireActivity"></activity>
     </application>
 
 </manifest>
