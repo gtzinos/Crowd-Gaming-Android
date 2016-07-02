@@ -2,7 +2,6 @@ package geotzinos.crowdgaming.Model.Domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by George on 2016-05-29.
@@ -17,7 +16,7 @@ public class Questionnaire implements Serializable {
     private int total_questions;
     private int answered_questions;
     private int allow_multiple_groups_playthrough;
-    private List<QuestionGroup> questionGroupsList;
+    private ArrayList<QuestionGroup> questionGroupsList;
 
     public int getId() {
         return id;
@@ -91,11 +90,11 @@ public class Questionnaire implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public List<QuestionGroup> getQuestionGroupsList() {
+    public ArrayList<QuestionGroup> getQuestionGroupsList() {
         return questionGroupsList;
     }
 
-    public void setQuestionGroupsList(List<QuestionGroup> questionGroupsList) {
+    public void setQuestionGroupsList(ArrayList<QuestionGroup> questionGroupsList) {
         this.questionGroupsList = questionGroupsList;
     }
 
@@ -110,7 +109,7 @@ public class Questionnaire implements Serializable {
         this.questionGroupsList = new ArrayList<QuestionGroup>();
     }
 
-    public Questionnaire(String name, String description, String creationDate, List<QuestionGroup> questionGroupsList) {
+    public Questionnaire(String name, String description, String creationDate, ArrayList<QuestionGroup> questionGroupsList) {
         this(name, description, creationDate);
         this.questionGroupsList = questionGroupsList;
     }
@@ -125,7 +124,7 @@ public class Questionnaire implements Serializable {
         this.allow_multiple_groups_playthrough = allow_multiple_groups_playthrough;
     }
 
-    public Questionnaire(String name, String description, String creationDate, List<QuestionGroup> questionGroupsList
+    public Questionnaire(String name, String description, String creationDate, ArrayList<QuestionGroup> questionGroupsList
             , int time_left, int time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough) {
         this(name, description, creationDate, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_playthrough);
         this.questionGroupsList = questionGroupsList;
