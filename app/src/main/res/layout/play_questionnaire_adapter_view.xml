@@ -17,7 +17,7 @@
             android:id="@+id/GroupTimeLeftTextView"
             android:gravity="right"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,7 +49,7 @@
             android:text="New Text"
             android:id="@+id/AnswersTextView"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="20dp" />
 
     </LinearLayout>
 
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/PriorityTextView"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="3dp" />
     </LinearLayout>
 
@@ -80,7 +80,7 @@
             android:text="New Text"
             android:id="@+id/AddressTextView"
             android:layout_marginTop="3dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -97,7 +97,8 @@
             android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:background="#337ab7"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="20dp" />
 
         <Button
             android:layout_width="match_parent"
@@ -107,7 +108,8 @@
             android:background="#337ab7"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp" />
     </LinearLayout>
 
 </LinearLayout>
