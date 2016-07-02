@@ -47,17 +47,18 @@ public class QuestionnaireMapper {
         ArrayList<Questionnaire> questionnairesList = new ArrayList<Questionnaire>();
 
         while (cursor.moveToNext()) {
-            String name = cursor.getString(0);
-            String description = cursor.getString(1);
-            String creation_date = cursor.getString(2);
-            int time_left = cursor.getInt(3);
-            int time_left_to_end = cursor.getInt(4);
-            int total_questions = cursor.getInt(5);
-            int answered_questions = cursor.getInt(6);
-            int allow_multiple_groups_play_through = cursor.getInt(7);
-            String is_completed = cursor.getString(8);
+            Long id = cursor.getLong(0);
+            String name = cursor.getString(1);
+            String description = cursor.getString(2);
+            String creation_date = cursor.getString(3);
+            int time_left = cursor.getInt(4);
+            int time_left_to_end = cursor.getInt(5);
+            int total_questions = cursor.getInt(6);
+            int answered_questions = cursor.getInt(7);
+            int allow_multiple_groups_play_through = cursor.getInt(8);
+            String is_completed = cursor.getString(9);
 
-            Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
+            Questionnaire questionnaire = new Questionnaire(id,name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
             questionnairesList.add(questionnaire);
         }
 
