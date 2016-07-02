@@ -71,13 +71,11 @@ public class Question {
         this.text = text;
         this.weight = weight;
         this.creationDate = creationDate;
+        this.answersList = new ArrayList<Answer>();
     }
 
     public Question(long id, String text, double weight, String creationDate, ArrayList<Answer> answersList) {
-        this.id = id;
-        this.text = text;
-        this.weight = weight;
-        this.creationDate = creationDate;
+        this(id, text, weight, creationDate);
         this.answersList = answersList;
     }
 
