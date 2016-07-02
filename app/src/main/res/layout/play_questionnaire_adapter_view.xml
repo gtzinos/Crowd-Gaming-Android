@@ -90,7 +90,7 @@
         android:id="@+id/QuestionGroupButtonLayout">
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Reset"
             android:id="@+id/ResetQuestionGroup"
@@ -100,7 +100,7 @@
             android:layout_marginRight="10dp" />
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/play_now"
             android:id="@+id/PlayQuestionGroupButton"
