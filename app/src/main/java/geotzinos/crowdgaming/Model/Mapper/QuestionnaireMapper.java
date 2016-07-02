@@ -55,8 +55,9 @@ public class QuestionnaireMapper {
             int total_questions = cursor.getInt(5);
             int answered_questions = cursor.getInt(6);
             int allow_multiple_groups_play_through = cursor.getInt(7);
+            String is_completed = cursor.getString(8);
 
-            Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through);
+            Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
             questionnairesList.add(questionnaire);
         }
 
