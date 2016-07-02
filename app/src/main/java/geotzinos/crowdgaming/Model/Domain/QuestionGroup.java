@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class QuestionGroup {
     private int id;
     private String name;
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
     private int radius;
     private String creationDate;
     private ArrayList<Question> questionsList;
@@ -30,19 +30,19 @@ public class QuestionGroup {
         this.name = name;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
@@ -74,7 +74,7 @@ public class QuestionGroup {
     public QuestionGroup() {
     }
 
-    public QuestionGroup(int id, String name, double latitude, double longitude, int radius, String creationDate) {
+    public QuestionGroup(int id, String name, String latitude, String longitude, int radius, String creationDate) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -83,7 +83,7 @@ public class QuestionGroup {
         this.creationDate = creationDate;
     }
 
-    public QuestionGroup(int id, String name, double latitude, double longitude, int radius, String creationDate, ArrayList<Question> questionsList) {
+    public QuestionGroup(int id, String name, String latitude, String longitude, int radius, String creationDate, ArrayList<Question> questionsList) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
