@@ -81,15 +81,11 @@ public class QuestionGroup {
         this.longitude = longitude;
         this.radius = radius;
         this.creationDate = creationDate;
+        this.questionsList = new ArrayList<Question>();
     }
 
     public QuestionGroup(long id, String name, String latitude, String longitude, String radius, String creationDate, ArrayList<Question> questionsList) {
-        this.id = id;
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.radius = radius;
-        this.creationDate = creationDate;
+        this(id, name, latitude, longitude, radius, creationDate);
         this.questionsList = questionsList;
     }
 }
