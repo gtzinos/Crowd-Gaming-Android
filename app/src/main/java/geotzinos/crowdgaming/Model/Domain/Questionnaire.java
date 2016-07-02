@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by George on 2016-05-29.
  */
 public class Questionnaire implements Serializable {
-    private int id;
+    private long id;
     private String name;
     private String description;
     private String creationDate;
@@ -18,11 +18,11 @@ public class Questionnaire implements Serializable {
     private int allow_multiple_groups_playthrough;
     private ArrayList<QuestionGroup> questionGroupsList;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
