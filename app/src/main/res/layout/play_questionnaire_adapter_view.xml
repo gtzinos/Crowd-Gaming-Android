@@ -14,7 +14,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/TimeLeftTextView"
+            android:id="@+id/GroupTimeLeftTextView"
             android:gravity="right"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp" />
