@@ -42,6 +42,7 @@ public class MyQuestionnairesPageRequest {
                                 ArrayList<Questionnaire> questionnaireArrayList = new ArrayList<Questionnaire>();
                                 for (int i = 0; i < questionnairesJArray.length(); i++) {
                                     JSONObject questionnaireJObject = questionnairesJArray.getJSONObject(i);
+                                    int id = questionnaireJObject.getInt("id");
                                     String name = questionnaireJObject.getString("name");
                                     String description = questionnaireJObject.getString("description");
                                     String creation_date = questionnaireJObject.getString("creation-date");
@@ -52,7 +53,7 @@ public class MyQuestionnairesPageRequest {
                                     int allow_multiple_groups_play_through = questionnaireJObject.getInt("allow-multiple-groups-playthrough");
                                     String is_completed = questionnaireJObject.getString("is-completed");
 
-                                    Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
+                                    Questionnaire questionnaire = new Questionnaire(id,name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
                                     questionnaireArrayList.add(questionnaire);
                                 }
                                 listView.setAdapter(new MyQuestionnairesAdapter(context, questionnaireArrayList));
