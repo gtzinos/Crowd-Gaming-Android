@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/QuestionnaireTimeTextView"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="20dp"
             android:gravity="right"
             android:layout_marginTop="15dp" />
     </LinearLayout>
