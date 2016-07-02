@@ -1,6 +1,7 @@
 package geotzinos.crowdgaming.Controller.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.R;
 
@@ -72,6 +74,17 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
                 holder.playQuestionnaireButton.setClickable(true);
                 holder.playQuestionnaireButton.setActivated(true);
                 holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#5cb85c'>Running</font></div>"));
+                /*
+                    Go to play questionnaire activity
+                */
+                holder.playQuestionnaireButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, PlayQuestionnaireActivity.class);
+                        intent.putExtra("questionnaire", questionnaires.get(position));
+                        context.startActivity(intent);
+                    }
+                });
             }
         } else if (questionnaires.get(position).getTime_left() == -1) {
             holder.playQuestionnaireButton.setFocusable(false);
