@@ -111,7 +111,8 @@ public class Questionnaire implements Serializable {
     public Questionnaire() {
     }
 
-    public Questionnaire(String name, String description, String creationDate, String is_completed) {
+    public Questionnaire(long id, String name, String description, String creationDate, String is_completed) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.creationDate = creationDate;
@@ -119,14 +120,14 @@ public class Questionnaire implements Serializable {
         this.questionGroupsList = new ArrayList<QuestionGroup>();
     }
 
-    public Questionnaire(String name, String description, String creationDate, String is_completed, ArrayList<QuestionGroup> questionGroupsList) {
-        this(name, description, creationDate, is_completed);
+    public Questionnaire(String name, String description, String creationDate, String is_completed, long id, ArrayList<QuestionGroup> questionGroupsList) {
+        this(id, name, description, creationDate, is_completed);
         this.questionGroupsList = questionGroupsList;
     }
 
     public Questionnaire(String name, String description, String creationDate, int time_left, int time_left_to_end
-            , int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed) {
-        this(name, description, creationDate, is_completed);
+            , int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed, long id) {
+        this(id, name, description, creationDate, is_completed);
         this.time_left = time_left;
         this.time_left_to_end = time_left_to_end;
         this.total_questions = total_questions;
@@ -135,8 +136,8 @@ public class Questionnaire implements Serializable {
     }
 
     public Questionnaire(String name, String description, String creationDate, ArrayList<QuestionGroup> questionGroupsList
-            , int time_left, int time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed) {
-        this(name, description, creationDate, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_playthrough, is_completed);
+            , int time_left, int time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed, long id) {
+        this(name, description, creationDate, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_playthrough, is_completed, id);
         this.questionGroupsList = questionGroupsList;
     }
 }
