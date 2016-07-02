@@ -50,8 +50,9 @@ public class MyQuestionnairesPageRequest {
                                     int total_questions = questionnaireJObject.getInt("total-questions");
                                     int answered_questions = questionnaireJObject.getInt("answered-questions");
                                     int allow_multiple_groups_play_through = questionnaireJObject.getInt("allow-multiple-groups-playthrough");
+                                    String is_completed = questionnaireJObject.getString("is-completed");
 
-                                    Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through);
+                                    Questionnaire questionnaire = new Questionnaire(name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
                                     questionnaireArrayList.add(questionnaire);
                                 }
                                 listView.setAdapter(new MyQuestionnairesAdapter(context, questionnaireArrayList));
