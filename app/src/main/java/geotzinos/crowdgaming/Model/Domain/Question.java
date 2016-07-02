@@ -1,6 +1,6 @@
 package geotzinos.crowdgaming.Model.Domain;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by George on 2016-05-29.
@@ -11,7 +11,7 @@ public class Question {
     private double weight;
     private String creationDate;
     private double timeToAnswer;
-    private List<Answer> answersList;
+    private ArrayList<Answer> answersList;
 
     public int getId() {
 
@@ -54,11 +54,11 @@ public class Question {
         this.timeToAnswer = timeToAnswer;
     }
 
-    public List<Answer> getAnswersList() {
+    public ArrayList<Answer> getAnswersList() {
         return answersList;
     }
 
-    public void setAnswersList(List<Answer> answersList) {
+    public void setAnswersList(ArrayList<Answer> answersList) {
         this.answersList = answersList;
     }
 
@@ -73,7 +73,7 @@ public class Question {
         this.creationDate = creationDate;
     }
 
-    public Question(int id, String text, double weight, String creationDate, List<Answer> answersList) {
+    public Question(int id, String text, double weight, String creationDate, ArrayList<Answer> answersList) {
         this.id = id;
         this.text = text;
         this.weight = weight;
