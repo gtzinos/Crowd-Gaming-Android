@@ -10,7 +10,7 @@ public class QuestionGroup {
     private String name;
     private String latitude;
     private String longitude;
-    private int radius;
+    private String radius;
     private String creationDate;
     private ArrayList<Question> questionsList;
 
@@ -46,11 +46,11 @@ public class QuestionGroup {
         this.longitude = longitude;
     }
 
-    public int getRadius() {
+    public String getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(String radius) {
         this.radius = radius;
     }
 
@@ -74,7 +74,7 @@ public class QuestionGroup {
     public QuestionGroup() {
     }
 
-    public QuestionGroup(int id, String name, String latitude, String longitude, int radius, String creationDate) {
+    public QuestionGroup(int id, String name, String latitude, String longitude, String radius, String creationDate) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -83,7 +83,7 @@ public class QuestionGroup {
         this.creationDate = creationDate;
     }
 
-    public QuestionGroup(int id, String name, String latitude, String longitude, int radius, String creationDate, ArrayList<Question> questionsList) {
+    public QuestionGroup(int id, String name, String latitude, String longitude, String radius, String creationDate, ArrayList<Question> questionsList) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
