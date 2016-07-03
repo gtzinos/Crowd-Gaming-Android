@@ -143,8 +143,13 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         holder.answersTextView.setText(String.valueOf("Answered: " + answered + "/" + total));
     }
 
-    private void SetAddress(String latitude,String longitude,final Holder holder) {
-        //TODO Set a link to navigate users to google maps
+    private void SetAddress(QuestionGroup questionGroup, final Holder holder) {
+        if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
+            holder.addressTextView.setText(String.valueOf("Distance: " + calculateDistance(questionGroup) + "m"));
+            //TODO Set a link to navigate users to google maps
+        } else {
+            holder.addressTextView.setText(String.valueOf("Available everywhere."));
+        }
     }
 
     private void SetResetButtonListener(final Holder holder, final int position) {
@@ -238,7 +243,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         SetName(questionnaire.getQuestionGroupsList().get(position).getName(),holder);
         SetAnswers(questionnaire.getQuestionGroupsList().get(position).getAnswered_questions(),questionnaire.getQuestionGroupsList().get(position).getTotal_questions(),holder);
         SetPriority(questionnaire.getQuestionGroupsList().get(position).getPriority(),holder);
-        SetAddress(questionnaire.getQuestionGroupsList().get(position).getLatitude(),questionnaire.getQuestionGroupsList().get(position).getLongitude(),holder);
+        SetAddress(questionnaire.getQuestionGroupsList().get(position), holder);
         SetResetButtonListener(holder, position);
         SetPlayButtonListener(holder, position);
         return rowView;
