@@ -58,7 +58,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
         listView = (ListView) findViewById(R.id.GroupsListView);
         timeLeftTextView = (TextView) findViewById(R.id.QuestionnaireTimeTextView);
         //Start questionnaire timer
-        StartQuestionnaireTimer(this, questionnaire.getTime_left_to_end(), user);
+        StartQuestionnaireTimer(this, Long.parseLong(String.valueOf(questionnaire.getTime_left_to_end())), user);
         //GPS Initialization
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -69,7 +69,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
     }
 
     private void StartQuestionnaireTimer(final Context context, long time_left, final User user) {
-        final long milliseconds = time_left * 60000;
+        final long milliseconds = time_left * (long) 60000;
         CountDownTimer timer = new CountDownTimer(milliseconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
