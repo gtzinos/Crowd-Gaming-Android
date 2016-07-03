@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
+import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.R;
@@ -133,26 +134,36 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
     }
 
     private void SetAnswers(long answered,long total,final Holder holder) {
-        holder.answersTextView.setText(String.valueOf("Answered: " + answered + " " + total));
+        holder.answersTextView.setText(String.valueOf("Answered: " + answered + "/" + total));
     }
 
     private void SetAddress(String latitude,String longitude,final Holder holder) {
         //TODO Set a link to navigate users to google maps
     }
 
-    private void SetResetButtonListener(Button button, final int position) {
+    private void SetResetButtonListener(final Holder holder, final int position) {
         final QuestionGroup questionGroup = questionnaire.getQuestionGroupsList().get(position);
-        if (questionGroup.getCurrent_repeats() < questionGroup.getAllowed_repeats()) {
-            button.setOnClickListener(new View.OnClickListener() {
+        String answeredText = holder.answersTextView.getText().toString();
+        int startPosition = answeredText.indexOf(" ") + 1;
+        int endPosition = answeredText.indexOf("/");
+        final long answered = Long.parseLong(answeredText.substring(startPosition, endPosition));
+        startPosition = endPosition + 1;
+        endPosition = answeredText.length();
+        final long total = Long.parseLong(answeredText.substring(startPosition, endPosition));
+
+        if (answered < total) {
+            holder.resetButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     JsonObjectRequest request = new PlayQuestionnairePageRequest()
-                            .ResetQuestionGroup(context, questionnaire.getId(), questionGroup.getId());
+                            .ResetQuestionGroup(context, questionnaire.getId(), questionGroup.getId(), answered, total, holder.answersTextView, holder.resetButton);
 
                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                     mRequestQueue.add(request);
                 }
             });
+        } else {
+            Effect.Alert(context, "You can't reset a completed question group.", "Okay");
         }
     }
 
@@ -174,7 +185,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         SetAnswers(questionnaire.getQuestionGroupsList().get(position).getAnswered_questions(),questionnaire.getQuestionGroupsList().get(position).getTotal_questions(),holder);
         SetPriority(questionnaire.getQuestionGroupsList().get(position).getPriority(),holder);
         SetAddress(questionnaire.getQuestionGroupsList().get(position).getLatitude(),questionnaire.getQuestionGroupsList().get(position).getLongitude(),holder);
-        SetResetButtonListener(holder.resetButton, position);
+        SetResetButtonListener(holder, position);
         return rowView;
     }
 }
