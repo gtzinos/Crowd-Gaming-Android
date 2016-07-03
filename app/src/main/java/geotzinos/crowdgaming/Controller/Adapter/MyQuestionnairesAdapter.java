@@ -2,7 +2,6 @@ package geotzinos.crowdgaming.Controller.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
@@ -88,11 +86,11 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
                 holder.playQuestionnaireButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        User user = (User)((Activity)context).getIntent().getSerializableExtra("user");
-                        Intent intent = new Intent(context, PlayQuestionnaireActivity.class);
-                        intent.putExtra("questionnaire", questionnaires.get(position));
-                        intent.putExtra("user",user);
-                        context.startActivity(intent);
+                        User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
+                        //Send request to get groups
+                        JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaires.get(position));
+                        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                        mRequestQueue.add(request);
                     }
                 });
             }
