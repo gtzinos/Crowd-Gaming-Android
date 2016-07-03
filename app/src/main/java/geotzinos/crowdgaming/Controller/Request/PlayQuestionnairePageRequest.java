@@ -1,5 +1,6 @@
 package geotzinos.crowdgaming.Controller.Request;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ListView;
 
@@ -93,7 +94,7 @@ public class PlayQuestionnairePageRequest {
     }
 
 
-    public JsonObjectRequest ResetQuestionGroup(final Context context, final User user, final String questionnaire_id, final String group_id) {
+    public JsonObjectRequest ResetQuestionGroup(final Context context, final long questionnaire_id, final long group_id) {
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/reset";
         Effect.ShowSpinner(context);
         JsonObjectRequest request = new JsonObjectRequest(URL, null,
@@ -127,6 +128,7 @@ public class PlayQuestionnairePageRequest {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
+                User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
                 headers.put("Authorization", user.getApiTaken());
 
                 return headers;
