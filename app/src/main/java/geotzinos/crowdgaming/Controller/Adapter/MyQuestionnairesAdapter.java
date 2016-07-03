@@ -12,11 +12,16 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
+import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
@@ -132,10 +137,10 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View v) {
                                 User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
-                                Intent intent = new Intent(context, PlayQuestionnaireActivity.class);
-                                intent.putExtra("questionnaire", questionnaires.get(position));
-                                intent.putExtra("user", user);
-                                context.startActivity(intent);
+                                //Send request to get groups
+                                JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaires.get(position));
+                                RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                mRequestQueue.add(request);
                             }
                         });
                     }
