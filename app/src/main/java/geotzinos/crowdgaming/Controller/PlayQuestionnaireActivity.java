@@ -1,35 +1,48 @@
 package geotzinos.crowdgaming.Controller;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
+import geotzinos.crowdgaming.Controller.Adapter.PlayQuestionnairesAdapter;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 
-public class PlayQuestionnaireActivity extends AppCompatActivity {
+public class PlayQuestionnaireActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
     ListView listView;
     TextView timeLeftTextView;
-    static boolean active = false;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLocation;
+    private LocationManager locationManager;
+    private LocationRequest mLocationRequest;
+    private Questionnaire questionnaire;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,32 +50,22 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
         Effect.Log("PlayQuestionnaireActivity", "Activity created.");
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_GLOBAL);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        active = false;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        active = true;
         //Get extra values
         Intent intent = getIntent();
-        Questionnaire questionnaire = (Questionnaire) intent.getSerializableExtra("questionnaire");
-        questionnaire.getQuestionGroupsList().clear();
-        User user = (User) intent.getSerializableExtra("user");
+        questionnaire = (Questionnaire) intent.getSerializableExtra("questionnaire");
+        user = (User) intent.getSerializableExtra("user");
         //Element initialization
         listView = (ListView) findViewById(R.id.GroupsListView);
         timeLeftTextView = (TextView) findViewById(R.id.QuestionnaireTimeTextView);
         //Start questionnaire timer
         StartQuestionnaireTimer(this, questionnaire.getTime_left_to_end(), user);
-        //Send request to get groups
-        JsonObjectRequest request = new PlayQuestionnairePageRequest().GetQuestionGroups(this, user, questionnaire, listView);
-        RequestQueue mRequestQueue = Volley.newRequestQueue(this);
-        mRequestQueue.add(request);
+        //GPS Initialization
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     private void StartQuestionnaireTimer(final Context context, long time_left, final User user) {
@@ -85,7 +88,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                if (context == null || !active) {
+                if (context == null) {
                     return;
                 }
 
@@ -95,7 +98,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (context != null && active) {
+                                    if (context != null) {
                                         Intent intent = new Intent(context, MyQuestionnairesActiviry.class);
                                         intent.putExtra("user", user);
                                         context.startActivity(intent);
@@ -139,5 +142,82 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
         } catch (Exception e) {
             Effect.Log("PlayQuestionnairesActivity", e.getMessage());
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    protected void startLocationUpdates() {
+        // Create the location request
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(3000)
+                .setFastestInterval(3000);
+        // Request location updates
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                mLocationRequest, this);
+        Effect.Log("PlayQuestionnaireActivity", "Location updates.");
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startLocationUpdates();
+        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLocation == null) {
+            startLocationUpdates();
+        }
+        if (mLocation != null) {
+            double latitude = mLocation.getLatitude();
+            double longitude = mLocation.getLongitude();
+            listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, mLocation));
+        } else {
+            Effect.Log("PlayQuestionnaireActivity", "Location is null.");
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, location));
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
