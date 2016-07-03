@@ -1,6 +1,8 @@
 package geotzinos.crowdgaming.Controller.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
 import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -21,17 +25,19 @@ import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
+import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 
 /**
  * Created by George on 2016-07-02.
  */
 public class PlayQuestionnairesAdapter extends BaseAdapter {
-    private Context context;
+    private final Context context;
     private Questionnaire questionnaire;
+    private Location location;
     private static LayoutInflater inflater = null;
 
-    public PlayQuestionnairesAdapter(Context context, Questionnaire questionnaire) {
+    public PlayQuestionnairesAdapter(Context context, Questionnaire questionnaire, Location location) {
         this.context = context;
         this.questionnaire = questionnaire;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -167,6 +173,54 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         }
     }
 
+    private void SetPlayButtonListener(final Holder holder, final int position) {
+        final User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
+        final Questionnaire questionnaire = (Questionnaire) ((Activity) context).getIntent().getSerializableExtra("questionnaire");
+        if (holder.playButton.isEnabled()) {
+            holder.playButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (questionnaire.getQuestionGroupsList().get(position).getLongitude() != null && questionnaire.getQuestionGroupsList().get(position).getLongitude() != null) {
+                        //JsonObjectRequest request = new PlayQuestionnairePageRequest().GetNextQuestionUsingCoordinates(context,user,questionnaire);
+                    } else {
+                        ///JsonObjectRequest request = new PlayQuestionnairePageRequest().GetNextQuestionWithoutCoordinates(context,user,questionnaire);
+                    }
+                }
+            });
+        }
+    }
+
+    //calculate client distance from question group
+    private String calculateDistance(QuestionGroup questionGroup) {
+        long R = 6371; // Radius of the earth in km
+        double dLat = Math.toRadians(Double.parseDouble(questionGroup.getLatitude()) - location.getLatitude());
+        double dLon = Math.toRadians(Double.parseDouble(questionGroup.getLongitude()) - location.getLongitude());
+        double lat1 = Math.toRadians(Double.parseDouble(questionGroup.getLatitude()));
+        double lat2 = Math.toRadians(location.getLatitude());
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = R * c;
+
+        //Convert km to meters
+        d = d * 1000;
+
+        //Check the final distance
+        if (d - Double.parseDouble(questionGroup.getRadius()) >= 0) {
+            d = d - Double.parseDouble(questionGroup.getRadius());
+        } else {
+            d = 0;
+        }
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        df.format(d);
+
+        //return value formatted with 2 decimals
+        return df.format(d);
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Holder holder = new Holder();
@@ -186,6 +240,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         SetPriority(questionnaire.getQuestionGroupsList().get(position).getPriority(),holder);
         SetAddress(questionnaire.getQuestionGroupsList().get(position).getLatitude(),questionnaire.getQuestionGroupsList().get(position).getLongitude(),holder);
         SetResetButtonListener(holder, position);
+        SetPlayButtonListener(holder, position);
         return rowView;
     }
 }
