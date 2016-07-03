@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Question implements Serializable {
     private long id;
     private String text;
-    private double weight;
+    private double multiplier;
     private String creationDate;
     private double timeToAnswer;
     private ArrayList<Answer> answersList;
@@ -31,12 +31,12 @@ public class Question implements Serializable {
         this.text = text;
     }
 
-    public double getWeight() {
-        return weight;
+    public double getMultiplier() {
+        return multiplier;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setMultiplier(double weight) {
+        this.multiplier = weight;
     }
 
     public String getCreationDate() {
@@ -67,10 +67,10 @@ public class Question implements Serializable {
     public Question() {
     }
 
-    public Question(long id, String text, double weight, String creationDate) {
+    public Question(long id, String text, double multiplier, String creationDate) {
         this.id = id;
         this.text = text;
-        this.weight = weight;
+        this.multiplier = multiplier;
         this.creationDate = creationDate;
         this.answersList = new ArrayList<Answer>();
     }
