@@ -90,6 +90,7 @@ public class MyQuestionnairesPageRequest {
 
     public JsonObjectRequest GetQuestionGroups(final Context context, final User user, final Questionnaire questionnaire) {
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire.getId() + "/group";
+        questionnaire.getQuestionGroupsList().clear();
 
         JsonObjectRequest request = new JsonObjectRequest(URL, null,
                 new Response.Listener<JSONObject>() {
@@ -140,9 +141,7 @@ public class MyQuestionnairesPageRequest {
                 Effect.CloseSpinner();
                 Effect.Alert(context, "You can't play this questionnaire.", "Okay");
             }
-
         }) {
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -151,8 +150,6 @@ public class MyQuestionnairesPageRequest {
                 return headers;
             }
         };
-
         return request;
     }
-
 }
