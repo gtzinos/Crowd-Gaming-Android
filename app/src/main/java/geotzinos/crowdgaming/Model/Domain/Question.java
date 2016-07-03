@@ -75,8 +75,8 @@ public class Question implements Serializable {
         this.answersList = new ArrayList<Answer>();
     }
 
-    public Question(long id, String text, double weight, String creationDate, ArrayList<Answer> answersList) {
-        this(id, text, weight, creationDate);
+    public Question(long id, String text, double multiplier, String creationDate, ArrayList<Answer> answersList) {
+        this(id, text, multiplier, creationDate);
         this.answersList = answersList;
     }
 
