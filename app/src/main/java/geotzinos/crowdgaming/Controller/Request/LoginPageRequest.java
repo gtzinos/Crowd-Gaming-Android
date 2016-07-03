@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import geotzinos.crowdgaming.Controller.MyQuestionnairesActiviry;
+import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.User;
@@ -44,9 +45,9 @@ public class LoginPageRequest {
 
                                 JSONObject userJSON = response.getJSONObject("user");
 
-                                String name = userJSON.getString("name");
-                                String surname = userJSON.getString("surname");
-                                String api_token = userJSON.getString("api-token");
+                                String name = Calculation.getStringJsonValue(userJSON, "name");
+                                String surname = Calculation.getStringJsonValue(userJSON, "surname");
+                                String api_token = Calculation.getStringJsonValue(userJSON, "api-token");
 
                                 User user = new User(name, surname, api_token);
                                 Effect.CloseSpinner();

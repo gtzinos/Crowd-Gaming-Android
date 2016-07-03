@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import geotzinos.crowdgaming.Controller.AnswerQuestionGroupActivity;
+import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Answer;
@@ -93,20 +94,20 @@ public class PlayQuestionnairePageRequest {
                             Effect.CloseSpinner();
                             if (code == 200) {
                                 JSONObject questionJObject = response.getJSONObject("question");
-                                long id = questionJObject.getLong("id");
-                                String name = questionJObject.getString("question-text");
-                                double multiplier = questionJObject.getDouble("multiplier");
-                                String creation_date = questionJObject.getString("creation_date");
-                                double time_to_answer = questionJObject.getDouble("time-to-answer");
+                                long id = Calculation.getLongJsonValue(questionJObject, "id");
+                                String name = Calculation.getStringJsonValue(questionJObject, "question-text");
+                                double multiplier = Calculation.getDoubleJsonValue(questionJObject, "multiplier");
+                                String creation_date = Calculation.getStringJsonValue(questionJObject, "creation_date");
+                                double time_to_answer = Calculation.getDoubleJsonValue(questionJObject, "time-to-answer");
                                 Question question = new Question(id, name, multiplier, creation_date);
 
                                 JSONArray answerJArray = response.getJSONArray("answer");
                                 ArrayList<Answer> answersArrayList = new ArrayList<Answer>();
                                 for (int i = 0; i < answerJArray.length(); i++) {
                                     JSONObject answerJObject = answerJArray.getJSONObject(i);
-                                    long answer_id = answerJObject.getLong("id");
-                                    String answer_name = answerJObject.getString("answer-text");
-                                    String answer_creation_date = answerJObject.getString("creation_date");
+                                    long answer_id = Calculation.getLongJsonValue(questionJObject, "id");
+                                    String answer_name = Calculation.getStringJsonValue(questionJObject, "answer-text");
+                                    String answer_creation_date = Calculation.getStringJsonValue(questionJObject, "creation_date");
                                     Answer answer = new Answer(answer_id, answer_name, answer_creation_date);
                                     question.getAnswersList().add(answer);
                                 }
