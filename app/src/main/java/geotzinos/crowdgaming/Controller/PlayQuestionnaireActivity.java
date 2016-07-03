@@ -1,5 +1,6 @@
 package geotzinos.crowdgaming.Controller;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,6 +35,8 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_questionnaire_view);
         Effect.Log("PlayQuestionnaireActivity", "Activity created.");
+        setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+        setDefaultKeyMode(DEFAULT_KEYS_SEARCH_GLOBAL);
     }
 
     @Override
@@ -106,5 +110,34 @@ public class PlayQuestionnaireActivity extends AppCompatActivity {
                 }
             }
         }.start();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            GoBack();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        GoBack();
+    }
+
+    private void GoBack() {
+        try {
+            // if (active) {
+            User user = (User) ((Activity) this).getIntent().getSerializableExtra("user");
+            Intent intent = new Intent(this, MyQuestionnairesActiviry.class);
+            intent.putExtra("user", user);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            this.startActivity(intent);
+            finish();
+            return;
+            //  }
+        } catch (Exception e) {
+            Effect.Log("PlayQuestionnairesActivity", e.getMessage());
+        }
     }
 }
