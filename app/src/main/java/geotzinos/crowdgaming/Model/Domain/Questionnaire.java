@@ -12,7 +12,7 @@ public class Questionnaire implements Serializable {
     private String description;
     private String creationDate;
     private int time_left;
-    private double time_left_to_end;
+    private int time_left_to_end;
     private int total_questions;
     private int answered_questions;
     private int allow_multiple_groups_playthrough;
@@ -35,11 +35,11 @@ public class Questionnaire implements Serializable {
         this.time_left = time_left;
     }
 
-    public double getTime_left_to_end() {
+    public int getTime_left_to_end() {
         return time_left_to_end;
     }
 
-    public void setTime_left_to_end(double time_left_to_end) {
+    public void setTime_left_to_end(int time_left_to_end) {
         this.time_left_to_end = time_left_to_end;
     }
 
@@ -125,7 +125,7 @@ public class Questionnaire implements Serializable {
         this.questionGroupsList = questionGroupsList;
     }
 
-    public Questionnaire(long id, String name, String description, String creationDate, int time_left, double time_left_to_end
+    public Questionnaire(long id, String name, String description, String creationDate, int time_left, int time_left_to_end
             , int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed) {
         this(id, name, description, creationDate, is_completed);
         this.time_left = time_left;
@@ -136,7 +136,7 @@ public class Questionnaire implements Serializable {
     }
 
     public Questionnaire(long id, String name, String description, String creationDate, ArrayList<QuestionGroup> questionGroupsList
-            , int time_left, double time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed) {
+            , int time_left, int time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed) {
         this(id, name, description, creationDate, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_playthrough, is_completed);
         this.questionGroupsList = questionGroupsList;
     }
