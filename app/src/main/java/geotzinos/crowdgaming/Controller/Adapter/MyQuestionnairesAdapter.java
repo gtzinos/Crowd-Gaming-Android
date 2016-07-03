@@ -116,7 +116,29 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
 
                 @Override
                 public void onFinish() {
-                    holder.playQuestionnaireButton.setEnabled(true);
+                    if (questionnaires.get(position).getAnswered_questions() == questionnaires.get(position).getTotal_questions()) {
+                        holder.playQuestionnaireButton.setFocusable(false);
+                        holder.playQuestionnaireButton.setClickable(false);
+                        holder.playQuestionnaireButton.setActivated(false);
+                        holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#5cb85c'>Completed</font></div>"));
+                    } else {
+                        holder.playQuestionnaireButton.setClickable(true);
+                        holder.playQuestionnaireButton.setActivated(true);
+                        holder.timeLeftTextView.setText(Html.fromHtml("<div><font color='#5cb85c'>Running</font></div>"));
+                        /*
+                            Go to play questionnaire activity
+                        */
+                        holder.playQuestionnaireButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
+                                Intent intent = new Intent(context, PlayQuestionnaireActivity.class);
+                                intent.putExtra("questionnaire", questionnaires.get(position));
+                                intent.putExtra("user", user);
+                                context.startActivity(intent);
+                            }
+                        });
+                    }
                 }
             }.start();
         }
