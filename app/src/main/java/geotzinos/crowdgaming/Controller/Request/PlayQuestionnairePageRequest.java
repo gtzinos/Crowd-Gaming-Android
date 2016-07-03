@@ -92,4 +92,47 @@ public class PlayQuestionnairePageRequest {
         return request;
     }
 
+
+    public JsonObjectRequest ResetQuestionGroup(final Context context, final User user, final String questionnaire_id, final String group_id) {
+        final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/reset";
+        Effect.ShowSpinner(context);
+        JsonObjectRequest request = new JsonObjectRequest(URL, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int code = response.getInt("code");
+
+                            if (code == 200) {
+                                Effect.CloseSpinner();
+                                String message = response.getString("message");
+                                Effect.Alert(context, message, "Okay");
+                                Effect.Log("Class PlayQuestionnairePageRequest", "Get question groups request completed.");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Effect.Log("Class MyQuestionnairesPageRequest", error.getMessage());
+                Effect.CloseSpinner();
+                Effect.Alert(context, "You can't play this questionnaire.", "Okay");
+            }
+
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", user.getApiTaken());
+
+                return headers;
+            }
+        };
+
+        return request;
+    }
 }
