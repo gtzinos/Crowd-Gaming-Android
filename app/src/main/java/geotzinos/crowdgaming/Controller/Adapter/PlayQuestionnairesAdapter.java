@@ -10,9 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.R;
@@ -135,6 +140,22 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         //TODO Set a link to navigate users to google maps
     }
 
+    private void SetResetButtonListener(Button button, final int position) {
+        final QuestionGroup questionGroup = questionnaire.getQuestionGroupsList().get(position);
+        if (questionGroup.getCurrent_repeats() < questionGroup.getAllowed_repeats()) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    JsonObjectRequest request = new PlayQuestionnairePageRequest()
+                            .ResetQuestionGroup(context, questionnaire.getId(), questionGroup.getId());
+
+                    RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                    mRequestQueue.add(request);
+                }
+            });
+        }
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Holder holder = new Holder();
@@ -153,11 +174,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         SetAnswers(questionnaire.getQuestionGroupsList().get(position).getAnswered_questions(),questionnaire.getQuestionGroupsList().get(position).getTotal_questions(),holder);
         SetPriority(questionnaire.getQuestionGroupsList().get(position).getPriority(),holder);
         SetAddress(questionnaire.getQuestionGroupsList().get(position).getLatitude(),questionnaire.getQuestionGroupsList().get(position).getLongitude(),holder);
-
-        if (questionnaire.getTime_left() == 0) {
-            //TODO Return to my questionnaires page
-        }
-
+        SetResetButtonListener(holder.resetButton, position);
         return rowView;
     }
 }
