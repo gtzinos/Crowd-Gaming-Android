@@ -1,11 +1,12 @@
 package geotzinos.crowdgaming.Model.Domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by George on 2016-05-29.
  */
-public class QuestionGroup {
+public class QuestionGroup implements Serializable {
     private long id;
     private String name;
     private String latitude;
