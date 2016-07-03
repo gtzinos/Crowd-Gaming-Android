@@ -2,7 +2,9 @@ package geotzinos.crowdgaming.Controller.Request;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -94,7 +96,9 @@ public class PlayQuestionnairePageRequest {
     }
 
 
-    public JsonObjectRequest ResetQuestionGroup(final Context context, final long questionnaire_id, final long group_id) {
+    public JsonObjectRequest ResetQuestionGroup(final Context context, final long questionnaire_id, final long group_id,
+                                                final long answered, final long total, final TextView answersTextView,
+                                                final Button resetButton) {
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/reset";
         Effect.ShowSpinner(context);
         JsonObjectRequest request = new JsonObjectRequest(URL, null,
@@ -107,6 +111,10 @@ public class PlayQuestionnairePageRequest {
                             if (code == 200) {
                                 Effect.CloseSpinner();
                                 String message = response.getString("message");
+                                answersTextView.setText(String.valueOf("Answered: " + answered + "/" + total));
+                                if (answered == total) {
+                                    resetButton.setEnabled(false);
+                                }
                                 Effect.Alert(context, message, "Okay");
                                 Effect.Log("Class PlayQuestionnairePageRequest", "Get question groups request completed.");
                             }
