@@ -6,15 +6,15 @@ import java.io.Serializable;
  * Created by George on 2016-05-29.
  */
 public class Answer implements Serializable {
-    private int id;
+    private long id;
     private String text;
     private String creationDate;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -38,7 +38,7 @@ public class Answer implements Serializable {
     public Answer() {
     }
 
-    public Answer(int id, String text, String creationDate) {
+    public Answer(long id, String text, String creationDate) {
         this.id = id;
         this.text = text;
         this.creationDate = creationDate;
