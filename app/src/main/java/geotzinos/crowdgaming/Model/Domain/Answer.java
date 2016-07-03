@@ -1,9 +1,11 @@
 package geotzinos.crowdgaming.Model.Domain;
 
+import java.io.Serializable;
+
 /**
  * Created by George on 2016-05-29.
  */
-public class Answer {
+public class Answer implements Serializable {
     private int id;
     private String text;
     private String creationDate;
