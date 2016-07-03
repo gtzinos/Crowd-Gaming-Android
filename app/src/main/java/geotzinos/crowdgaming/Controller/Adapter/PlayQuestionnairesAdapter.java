@@ -94,7 +94,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         }
         //No time
         else {
-            holder.groupTimeLeftTextView.setText("Without time.");
+            holder.groupTimeLeftTextView.setText(String.valueOf("Without time."));
         }
     }
 
@@ -107,7 +107,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         }
 
         final long milliseconds = Long.parseLong(time_left) * 60000;
-        CountDownTimer timer = new CountDownTimer(milliseconds, 1000) {
+        new CountDownTimer(milliseconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + String.valueOf(String.format(Locale.getDefault(),
