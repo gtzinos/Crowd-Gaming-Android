@@ -3,6 +3,7 @@ package geotzinos.crowdgaming.Controller.Request;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -82,7 +83,7 @@ public class PlayQuestionnairePageRequest {
         return request;
     }
 
-    public JsonObjectRequest GetNextQuestion(final Context context, final User user, final String questionnaire_id, final String group_id) {
+    public JsonObjectRequest GetNextQuestion(final Context context, final User user, final long questionnaire_id, final long group_id, final Location location) {
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/question";
         Effect.ShowSpinner(context);
         JsonObjectRequest request = new JsonObjectRequest(URL, null,
@@ -135,7 +136,9 @@ public class PlayQuestionnairePageRequest {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Authorization", user.getApiTaken());
-                //TODO X-Coordinates
+                if (location != null) {
+                    headers.put("X-Coordinates", String.valueOf(location.getLatitude() + ";" + location.getLongitude()));
+                }
                 return headers;
             }
         };
