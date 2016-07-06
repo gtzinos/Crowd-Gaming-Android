@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +41,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
     public PlayQuestionnairesAdapter(Context context, Questionnaire questionnaire, Location location) {
         this.context = context;
         this.questionnaire = questionnaire;
+        this.location = location;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -145,10 +147,18 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
 
     private void SetAddress(QuestionGroup questionGroup, final Holder holder) {
         if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
-            holder.addressTextView.setText(String.valueOf("Distance: " + calculateDistance(questionGroup) + "m"));
+
+            double distance = Double.parseDouble(calculateDistance(questionGroup));
+            holder.addressTextView.setText(String.valueOf("Distance: " + distance + "m"));
+            if (distance > 0) {
+                holder.playButton.setEnabled(false);
+            } else {
+                holder.playButton.setEnabled(true);
+            }
             //TODO Set a link to navigate users to google maps
         } else {
             holder.addressTextView.setText(String.valueOf("Available everywhere."));
+            holder.playButton.setEnabled(true);
         }
     }
 
@@ -185,11 +195,18 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             holder.playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (questionnaire.getQuestionGroupsList().get(position).getLongitude() != null && questionnaire.getQuestionGroupsList().get(position).getLongitude() != null) {
-                        //JsonObjectRequest request = new PlayQuestionnairePageRequest().GetNextQuestionUsingCoordinates(context,user,questionnaire);
+                    JsonObjectRequest request;
+                    long questionnaire_id = questionnaire.getId();
+                    long group_id = questionnaire.getQuestionGroupsList().get(position).getId();
+                    if (questionnaire.getQuestionGroupsList().get(position).getLatitude() != null && questionnaire.getQuestionGroupsList().get(position).getLongitude() != null) {
+                        request = new PlayQuestionnairePageRequest().
+                                GetNextQuestion(context, user, questionnaire_id, group_id, location);
                     } else {
-                        ///JsonObjectRequest request = new PlayQuestionnairePageRequest().GetNextQuestionWithoutCoordinates(context,user,questionnaire);
+                        request = new PlayQuestionnairePageRequest()
+                                .GetNextQuestion(context, user, questionnaire_id, group_id, null);
                     }
+                    RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                    mRequestQueue.add(request);
                 }
             });
         }
@@ -217,9 +234,12 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         } else {
             d = 0;
         }
-
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+        otherSymbols.setDecimalSeparator('.');
+        otherSymbols.setGroupingSeparator(',');
+        DecimalFormat df = new DecimalFormat("#.##", otherSymbols);
         df.setRoundingMode(RoundingMode.CEILING);
+
         df.format(d);
 
         //return value formatted with 2 decimals
