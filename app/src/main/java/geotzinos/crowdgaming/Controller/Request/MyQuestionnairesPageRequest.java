@@ -1,5 +1,6 @@
 package geotzinos.crowdgaming.Controller.Request;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
+import geotzinos.crowdgaming.R;
 
 /**
  * Created by George on 2016-06-26.
@@ -61,7 +63,15 @@ public class MyQuestionnairesPageRequest {
                                     Questionnaire questionnaire = new Questionnaire(id,name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
                                     questionnaireArrayList.add(questionnaire);
                                 }
-                                listView.setAdapter(new MyQuestionnairesAdapter(context, questionnaireArrayList));
+                                if(questionnaireArrayList.size() == 0)
+                                {
+                                    ((Activity) context).setContentView(R.layout.empty_my_questionnaires_view);
+                                }
+                                else
+                                {
+                                    listView.setAdapter(new MyQuestionnairesAdapter(context, questionnaireArrayList));
+                                }
+
                                 Effect.Log("Class MyQuestionnairesPageRequest", "Get questionnaires request completed.");
                             }
                         } catch (JSONException e) {
