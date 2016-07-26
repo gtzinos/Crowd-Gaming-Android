@@ -20,7 +20,7 @@ public class QuestionGroup implements Serializable {
     private String time_left;
     private String time_to_complete;
     private long priority;
-    private String is_completed;
+    private boolean is_completed;
 
     private ArrayList<Question> questionsList;
 
@@ -128,11 +128,11 @@ public class QuestionGroup implements Serializable {
         this.priority = priority;
     }
 
-    public String getIs_completed() {
+    public boolean getIs_completed() {
         return is_completed;
     }
 
-    public void setIs_completed(String is_completed) {
+    public void setIs_completed(boolean is_completed) {
         this.is_completed = is_completed;
     }
 
@@ -144,7 +144,7 @@ public class QuestionGroup implements Serializable {
         this.questionsList = questionsList;
     }
 
-    public QuestionGroup(long id, String name, String latitude, String longitude, String radius, String creationDate, long total_questions, long answered_questions, long allowed_repeats, long current_repeats, String time_left, String time_to_complete, long priority, String is_completed) {
+    public QuestionGroup(long id, String name, String latitude, String longitude, String radius, String creationDate, long total_questions, long answered_questions, long allowed_repeats, long current_repeats, String time_left, String time_to_complete, long priority, boolean is_completed) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -162,7 +162,7 @@ public class QuestionGroup implements Serializable {
         this.questionsList = new ArrayList<Question>();
     }
 
-    public QuestionGroup(long id, String name, String latitude, String longitude, String radius, String creationDate, long total_questions, long answered_questions, long allowed_repeats, long current_repeats, String time_left, String time_to_complete, long priority, String is_completed, ArrayList<Question> questionsList) {
+    public QuestionGroup(long id, String name, String latitude, String longitude, String radius, String creationDate, long total_questions, long answered_questions, long allowed_repeats, long current_repeats, String time_left, String time_to_complete, long priority, boolean is_completed, ArrayList<Question> questionsList) {
         this(id, name, latitude, longitude, radius, creationDate, total_questions, answered_questions, allowed_repeats, current_repeats, time_left, time_to_complete, priority, is_completed);
         this.questionsList = questionsList;
     }
