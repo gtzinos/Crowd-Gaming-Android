@@ -94,7 +94,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
 
                 try {
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setMessage("Questionnaire completed.")
+                    alert.setMessage("Questionnaire time expired.")
                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
