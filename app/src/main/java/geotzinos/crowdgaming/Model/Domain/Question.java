@@ -67,16 +67,17 @@ public class Question implements Serializable {
     public Question() {
     }
 
-    public Question(long id, String text, double multiplier, String creationDate) {
+    public Question(long id, String text, double multiplier, String creationDate, double timeToAnswer) {
         this.id = id;
         this.text = text;
         this.multiplier = multiplier;
         this.creationDate = creationDate;
+        this.timeToAnswer = timeToAnswer;
         this.answersList = new ArrayList<Answer>();
     }
 
-    public Question(long id, String text, double multiplier, String creationDate, ArrayList<Answer> answersList) {
-        this(id, text, multiplier, creationDate);
+    public Question(long id, String text, double multiplier, String creationDate, double timeToAnswer, ArrayList<Answer> answersList) {
+        this(id, text, multiplier, creationDate,timeToAnswer);
         this.answersList = answersList;
     }
 

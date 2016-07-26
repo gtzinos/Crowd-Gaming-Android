@@ -103,7 +103,7 @@ public class PlayQuestionnairePageRequest {
                                 double multiplier = Calculation.getDoubleJsonValue(questionJObject, "multiplier");
                                 String creation_date = Calculation.getStringJsonValue(questionJObject, "creation_date");
                                 double time_to_answer = Calculation.getDoubleJsonValue(questionJObject, "time-to-answer");
-                                Question question = new Question(id, name, multiplier, creation_date);
+                                Question question = new Question(id, name, multiplier, creation_date,time_to_answer);
 
                                 JSONArray answerJArray = response.getJSONArray("answer");
                                 ArrayList<Answer> answersArrayList = new ArrayList<Answer>();
