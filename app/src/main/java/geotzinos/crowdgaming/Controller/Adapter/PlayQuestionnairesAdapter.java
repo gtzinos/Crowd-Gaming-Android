@@ -147,10 +147,9 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
 
     private void SetAddress(QuestionGroup questionGroup, final Holder holder) {
         if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
-
             double distance = Double.parseDouble(calculateDistance(questionGroup));
             holder.addressTextView.setText(String.valueOf("Distance: " + distance + "m"));
-            if (distance > 0) {
+            if (distance > 0 || questionGroup.getIs_completed() != null) {
                 holder.playButton.setEnabled(false);
             } else {
                 holder.playButton.setEnabled(true);
@@ -158,7 +157,9 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             //TODO Set a link to navigate users to google maps
         } else {
             holder.addressTextView.setText(String.valueOf("Available everywhere."));
-            holder.playButton.setEnabled(true);
+            if (questionGroup.getIs_completed() == null) {
+                holder.playButton.setEnabled(true);
+            }
         }
     }
 
@@ -172,7 +173,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         endPosition = answeredText.length();
         final long total = Long.parseLong(answeredText.substring(startPosition, endPosition));
 
-        if (answered < total) {
+        if (answered < total && questionGroup.getIs_completed() == null) {
             holder.resetButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -184,31 +185,40 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                 }
             });
         } else {
-            Effect.Alert(context, "You can't reset a completed question group.", "Okay");
+            holder.resetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Effect.Alert(context, "You can't reset a completed question group.", "Okay");
+                }
+            });
         }
     }
 
     private void SetPlayButtonListener(final Holder holder, final int position) {
         final User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
         final Questionnaire questionnaire = (Questionnaire) ((Activity) context).getIntent().getSerializableExtra("questionnaire");
+
         if (holder.playButton.isEnabled()) {
             holder.playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     JsonObjectRequest request;
-                    long questionnaire_id = questionnaire.getId();
                     long group_id = questionnaire.getQuestionGroupsList().get(position).getId();
                     if (questionnaire.getQuestionGroupsList().get(position).getLatitude() != null && questionnaire.getQuestionGroupsList().get(position).getLongitude() != null) {
                         request = new PlayQuestionnairePageRequest().
-                                GetNextQuestion(context, user, questionnaire_id, group_id, location);
+                                GetNextQuestion(context, user, questionnaire, group_id, location);
                     } else {
                         request = new PlayQuestionnairePageRequest()
-                                .GetNextQuestion(context, user, questionnaire_id, group_id, null);
+                                .GetNextQuestion(context, user, questionnaire, group_id, null);
                     }
                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                     mRequestQueue.add(request);
                 }
             });
+        } else if (questionnaire.getQuestionGroupsList().get(position).getIs_completed() != null) {
+            holder.playButton.setText(String.valueOf("COMPLETED"));
+        } else {
+            holder.playButton.setText(String.valueOf("PLAY NOW"));
         }
     }
 
