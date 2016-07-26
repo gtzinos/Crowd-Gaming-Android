@@ -5,7 +5,20 @@
     android:layout_height="fill_parent"
     android:id="@+id/container"
     android:background="#cccccc">
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/activity_main_swipe_refresh_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/toolBar">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startingList"
+            android:scrollingCache="false"
+            android:animationCache="false"
+            android:smoothScrollbar="true"
+            android:layout_below="@+id/toolBar" />
+    </android.support.v4.widget.SwipeRefreshLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -39,6 +52,7 @@
             android:id="@+id/emailTextField"
             android:hint="@string/email_address_hint"
             android:gravity="center"
+            android:text="geotzinos@gmail.com"
             android:paddingTop="30dp" />
     </LinearLayout>
 
@@ -56,6 +70,7 @@
             android:ems="10"
             android:id="@+id/passwordTextField"
             android:hint="@string/password_hint"
+            android:text="temp"
             android:gravity="center" />
     </LinearLayout>
 
@@ -72,6 +87,23 @@
             android:text="@string/login_hint"
             android:id="@+id/login_button"
             android:onClick="ClickEventManager" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/RegisterLayout">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/RegisterLinkTextView"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:autoLink="web" />
     </LinearLayout>
 
 </LinearLayout>
