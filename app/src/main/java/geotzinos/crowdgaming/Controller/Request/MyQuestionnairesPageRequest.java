@@ -8,6 +8,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,7 +119,7 @@ public class MyQuestionnairesPageRequest {
                                     String time_left = Calculation.getStringJsonValue(questionGroupJObject, "time-left");
                                     String time_to_complete = Calculation.getStringJsonValue(questionGroupJObject, "time-to-complete");
                                     long priority = Calculation.getLongJsonValue(questionGroupJObject, "priority");
-                                    String is_completed = Calculation.getStringJsonValue(questionGroupJObject, "is-completed");
+                                    boolean is_completed = Calculation.getBooleanJsonValue(questionGroupJObject, "is-completed");
 
                                     QuestionGroup questionGroup = new QuestionGroup(id, name, latitude, longitude, radius, creation_date, total_questions, answered_questions, allowed_repeats, current_repeats, time_left, time_to_complete, priority, is_completed);
                                     questionnaire.getQuestionGroupsList().add(questionGroup);

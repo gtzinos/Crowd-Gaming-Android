@@ -158,7 +158,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
             double distance = Double.parseDouble(calculateDistance(questionGroup));
             holder.addressTextView.setText(String.valueOf("Distance: " + distance + "m"));
-            if (distance > 0 || questionGroup.getIs_completed() != null) {
+            if (distance > 0 || questionGroup.getIs_completed()) {
                 holder.playButton.setEnabled(false);
             } else {
                 holder.playButton.setEnabled(true);
@@ -166,7 +166,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             //TODO Set a link to navigate users to google maps
         } else {
             holder.addressTextView.setText(String.valueOf("Available everywhere."));
-            if (questionGroup.getIs_completed() == null) {
+            if (!questionGroup.getIs_completed()) {
                 holder.playButton.setEnabled(true);
             }
         }
@@ -182,7 +182,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         endPosition = answeredText.length();
         final long total = Long.parseLong(answeredText.substring(startPosition, endPosition));
 
-        if (answered < total && questionGroup.getIs_completed() == null) {
+        if (answered < total && !questionGroup.getIs_completed()) {
             holder.resetButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -224,7 +224,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                     mRequestQueue.add(request);
                 }
             });
-        } else if (questionnaire.getQuestionGroupsList().get(position).getIs_completed() != null) {
+        } else if (questionnaire.getQuestionGroupsList().get(position).getIs_completed()) {
             holder.playButton.setText(String.valueOf("COMPLETED"));
         } else {
             holder.playButton.setText(String.valueOf("PLAY NOW"));
