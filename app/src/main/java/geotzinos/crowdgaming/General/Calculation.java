@@ -8,6 +8,18 @@ import org.json.JSONObject;
  */
 public class Calculation {
 
+    public static boolean getBooleanJsonValue(JSONObject jsonObject, String parameterName) {
+        String string_value = getJsonValue(jsonObject, parameterName);
+
+        if (string_value == null || string_value.equals("0") || string_value.equals("false"))
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     public static int getIntJsonValue(JSONObject jsonObject, String parameterName) {
         return Integer.parseInt(getJsonValue(jsonObject, parameterName));
     }
