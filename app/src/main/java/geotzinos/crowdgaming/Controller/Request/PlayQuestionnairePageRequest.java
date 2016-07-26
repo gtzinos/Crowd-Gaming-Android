@@ -109,9 +109,9 @@ public class PlayQuestionnairePageRequest {
                                 ArrayList<Answer> answersArrayList = new ArrayList<Answer>();
                                 for (int i = 0; i < answerJArray.length(); i++) {
                                     JSONObject answerJObject = answerJArray.getJSONObject(i);
-                                    long answer_id = Calculation.getLongJsonValue(questionJObject, "id");
-                                    String answer_name = Calculation.getStringJsonValue(questionJObject, "answer-text");
-                                    String answer_creation_date = Calculation.getStringJsonValue(questionJObject, "creation_date");
+                                    long answer_id = Calculation.getLongJsonValue(answerJObject, "id");
+                                    String answer_name = Calculation.getStringJsonValue(answerJObject, "answer-text");
+                                    String answer_creation_date = Calculation.getStringJsonValue(answerJObject, "creation_date");
                                     Answer answer = new Answer(answer_id, answer_name, answer_creation_date);
                                     question.getAnswersList().add(answer);
                                 }
