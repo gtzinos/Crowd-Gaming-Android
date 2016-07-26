@@ -3,24 +3,28 @@ package geotzinos.crowdgaming.Controller;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import geotzinos.crowdgaming.Controller.Request.LoginPageRequest;
+import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.General.Validate;
 import geotzinos.crowdgaming.R;
-import geotzinos.crowdgaming.Request.LoginPageRequest;
 
 public class LoginPageActivity extends AppCompatActivity {
     //UI Elements
     private EditText etEmail;
     private EditText etPassword;
     private Button loginButton;
+    private TextView tvRegisterLink;
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -31,6 +35,8 @@ public class LoginPageActivity extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.emailTextField);
         etPassword = (EditText) findViewById(R.id.passwordTextField);
         loginButton = (Button) findViewById(R.id.login_button);
+        tvRegisterLink = (TextView) findViewById(R.id.RegisterLinkTextView);
+        tvRegisterLink.setText(Html.fromHtml(String.valueOf("<a href=\"" + Config.WEB_ROOT + "\">Click here to register</a>")));
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
