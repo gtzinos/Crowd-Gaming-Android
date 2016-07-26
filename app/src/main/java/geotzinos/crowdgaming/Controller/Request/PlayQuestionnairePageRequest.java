@@ -26,6 +26,7 @@ import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Answer;
 import geotzinos.crowdgaming.Model.Domain.Question;
+import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 
 /**
@@ -83,8 +84,10 @@ public class PlayQuestionnairePageRequest {
         return request;
     }
 
-    public JsonObjectRequest GetNextQuestion(final Context context, final User user, final long questionnaire_id, final long group_id, final Location location) {
+    public JsonObjectRequest GetNextQuestion(final Context context, final User user, final Questionnaire questionnaire, final long group_id, final Location location) {
+        final long questionnaire_id = questionnaire.getId();
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/question";
+
         Effect.ShowSpinner(context);
         JsonObjectRequest request = new JsonObjectRequest(URL, null,
                 new Response.Listener<JSONObject>() {
@@ -115,6 +118,7 @@ public class PlayQuestionnairePageRequest {
                                 Intent intent = new Intent(context, AnswerQuestionGroupActivity.class);
                                 intent.putExtra("user", user);
                                 intent.putExtra("question", question);
+                                intent.putExtra("questionnaire", questionnaire);
                                 context.startActivity(intent);
                                 ((Activity) context).finish();
                                 Effect.Log("Class PlayQuestionnairePageRequest", "Get question request completed.");
