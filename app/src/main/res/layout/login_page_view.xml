@@ -85,8 +85,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_hint"
+            android:ems="12"
+            android:background="#337ab7"
+            android:textColor="#ffffff"
             android:id="@+id/login_button"
-            android:onClick="ClickEventManager" />
+            android:onClick="ClickEventManager"
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 
     <LinearLayout
