@@ -16,7 +16,7 @@ public class Questionnaire implements Serializable {
     private int total_questions;
     private int answered_questions;
     private int allow_multiple_groups_playthrough;
-    private String is_completed;
+    private boolean is_completed;
     private ArrayList<QuestionGroup> questionGroupsList;
 
     public long getId() {
@@ -91,11 +91,11 @@ public class Questionnaire implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public String getIs_completed() {
+    public boolean getIs_completed() {
         return is_completed;
     }
 
-    public void setIs_completed(String is_completed) {
+    public void setIs_completed(boolean is_completed) {
         this.is_completed = is_completed;
     }
 
@@ -111,7 +111,7 @@ public class Questionnaire implements Serializable {
     public Questionnaire() {
     }
 
-    public Questionnaire(long id, String name, String description, String creationDate, String is_completed) {
+    public Questionnaire(long id, String name, String description, String creationDate, boolean is_completed) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -120,13 +120,13 @@ public class Questionnaire implements Serializable {
         this.questionGroupsList = new ArrayList<QuestionGroup>();
     }
 
-    public Questionnaire(long id, String name, String description, String creationDate, String is_completed, ArrayList<QuestionGroup> questionGroupsList) {
+    public Questionnaire(long id, String name, String description, String creationDate, boolean is_completed, ArrayList<QuestionGroup> questionGroupsList) {
         this(id, name, description, creationDate, is_completed);
         this.questionGroupsList = questionGroupsList;
     }
 
     public Questionnaire(long id, String name, String description, String creationDate, int time_left, int time_left_to_end
-            , int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed) {
+            , int total_questions, int answered_questions, int allow_multiple_groups_playthrough, boolean is_completed) {
         this(id, name, description, creationDate, is_completed);
         this.time_left = time_left;
         this.time_left_to_end = time_left_to_end;
@@ -136,7 +136,7 @@ public class Questionnaire implements Serializable {
     }
 
     public Questionnaire(long id, String name, String description, String creationDate, ArrayList<QuestionGroup> questionGroupsList
-            , int time_left, int time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough, String is_completed) {
+            , int time_left, int time_left_to_end, int total_questions, int answered_questions, int allow_multiple_groups_playthrough, boolean is_completed) {
         this(id, name, description, creationDate, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_playthrough, is_completed);
         this.questionGroupsList = questionGroupsList;
     }
