@@ -91,7 +91,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             }
             //Started
             else {
-                StartTimer(questionGroup.getTime_left(),holder);
+                StartTimer(questionGroup.getTime_left(),questionGroup.getTime_to_complete(), holder);
             }
         }
         //No time
@@ -100,11 +100,20 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         }
     }
 
-    private void StartTimer(String time_left,final Holder holder) {
-        if(time_left == null) {
-            return;
-        }
-        if(time_left.equals("-1")) {
+    private void StartTimer(String time_left,String time_to_complete,final Holder holder) {
+        if(time_left == null || time_left.equals("-1")) {
+            long time_to_complete_ms = Long.parseLong(time_to_complete) * 60000;
+            holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + String.valueOf(String.format(Locale.getDefault(),
+                    "%02d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(time_to_complete_ms),
+                    TimeUnit.MILLISECONDS.toMinutes(time_to_complete_ms)
+                            - TimeUnit.HOURS
+                            .toMinutes(TimeUnit.MILLISECONDS
+                                    .toHours(time_to_complete_ms)),
+                    TimeUnit.MILLISECONDS.toSeconds(time_to_complete_ms)
+                            - TimeUnit.MINUTES
+                            .toSeconds(TimeUnit.MILLISECONDS
+                                    .toMinutes(time_to_complete_ms))) + "</font></div>")));
             return;
         }
 
