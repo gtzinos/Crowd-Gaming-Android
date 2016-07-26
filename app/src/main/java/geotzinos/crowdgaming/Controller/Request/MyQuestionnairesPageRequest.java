@@ -56,7 +56,7 @@ public class MyQuestionnairesPageRequest {
                                     int total_questions = Calculation.getIntJsonValue(questionnaireJObject, "total-questions");
                                     int answered_questions = Calculation.getIntJsonValue(questionnaireJObject, "answered-questions");
                                     int allow_multiple_groups_play_through = Calculation.getIntJsonValue(questionnaireJObject, "allow-multiple-groups-playthrough");
-                                    String is_completed = Calculation.getStringJsonValue(questionnaireJObject, "is-completed");
+                                    boolean is_completed = Calculation.getBooleanJsonValue(questionnaireJObject, "is-completed");
 
                                     Questionnaire questionnaire = new Questionnaire(id,name, description, creation_date, time_left, time_left_to_end, total_questions, answered_questions, allow_multiple_groups_play_through, is_completed);
                                     questionnaireArrayList.add(questionnaire);

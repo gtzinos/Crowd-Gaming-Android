@@ -71,7 +71,7 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
         holder.playQuestionnaireButton = (Button) rowView.findViewById(R.id.PlayButton);
 
         if (questionnaires.get(position).getTime_left() == 0) {
-            if (questionnaires.get(position).getAnswered_questions() == questionnaires.get(position).getTotal_questions()) {
+            if (questionnaires.get(position).getIs_completed()) {
                 holder.playQuestionnaireButton.setFocusable(false);
                 holder.playQuestionnaireButton.setClickable(false);
                 holder.playQuestionnaireButton.setActivated(false);
@@ -119,7 +119,7 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
 
                 @Override
                 public void onFinish() {
-                    if (questionnaires.get(position).getAnswered_questions() == questionnaires.get(position).getTotal_questions()) {
+                    if (questionnaires.get(position).getAnswered_questions() == questionnaires.get(position).getTotal_questions() || questionnaires.get(position).getIs_completed()) {
                         holder.playQuestionnaireButton.setFocusable(false);
                         holder.playQuestionnaireButton.setClickable(false);
                         holder.playQuestionnaireButton.setActivated(false);
