@@ -9,13 +9,14 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import geotzinos.crowdgaming.Controller.Adapter.AnswerQuestionGroupAdapter;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Question;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
@@ -23,9 +24,13 @@ import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 
 public class AnswerQuestionGroupActivity extends AppCompatActivity {
-    ListView listView;
     TextView questionTextView;
     TextView questionTimeTextView;
+    RadioButton answer1RadioButton;
+    RadioButton answer2RadioButton;
+    RadioButton answer3RadioButton;
+    RadioButton answer4RadioButton;
+
     User user;
     Questionnaire questionnaire;
 
@@ -33,9 +38,14 @@ public class AnswerQuestionGroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.answer_question_group_view);
-        listView = (ListView) findViewById(R.id.AnswersListView);
+
+        //Initialization
         questionTimeTextView = (TextView) findViewById(R.id.QuestionTimeTextView);
         questionTextView = (TextView) findViewById(R.id.QuestionNameTextView);
+        answer1RadioButton = (RadioButton) findViewById(R.id.answer1_radio_button);
+        answer2RadioButton = (RadioButton) findViewById(R.id.answer2_radio_button);
+        answer3RadioButton = (RadioButton) findViewById(R.id.answer3_radio_button);
+        answer4RadioButton = (RadioButton) findViewById(R.id.answer4_radio_button);
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -43,11 +53,36 @@ public class AnswerQuestionGroupActivity extends AppCompatActivity {
         Question question = (Question) intent.getSerializableExtra("question");
         questionTextView.setText(question.getText());
         SetQuestionTimer(this, user, question);
-        listView.setAdapter(new AnswerQuestionGroupAdapter(this, question));
+        SetAnswersText(question);
 
         //JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionnaires(this, user, listView);
         //RequestQueue mRequestQueue = Volley.newRequestQueue(this);
         //mRequestQueue.add(request);
+    }
+
+    private void SetAnswersText(Question question)
+    {
+        if(question.getAnswersList().size() == 4)
+        {
+            answer1RadioButton.setText(question.getAnswersList().get(0).getText());
+            answer2RadioButton.setText(question.getAnswersList().get(1).getText());
+            answer3RadioButton.setText(question.getAnswersList().get(2).getText());
+            answer4RadioButton.setText(question.getAnswersList().get(3).getText());
+        }
+        else if(question.getAnswersList().size() == 3)
+        {
+            answer1RadioButton.setText(question.getAnswersList().get(0).getText());
+            answer2RadioButton.setText(question.getAnswersList().get(1).getText());
+            answer3RadioButton.setText(question.getAnswersList().get(2).getText());
+            answer4RadioButton.setVisibility(View.GONE);
+        }
+        else if(question.getAnswersList().size() == 2){
+            answer1RadioButton.setText(question.getAnswersList().get(0).getText());
+            answer2RadioButton.setText(question.getAnswersList().get(1).getText());
+            answer3RadioButton.setVisibility(View.GONE);
+            answer4RadioButton.setVisibility(View.GONE);
+        }
+
     }
 
     private void SetQuestionTimer(final Context context, final User user, Question question) {
