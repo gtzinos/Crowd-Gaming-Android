@@ -40,12 +40,43 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/AnswersCenterLayout">
+        android:id="@+id/AnswersCenterLayout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp">
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/AnswersListView" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/answers_radio_group">
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/answer1_radio_button" />
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/answer2_radio_button"
+                android:layout_marginTop="3dp" />
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/answer3_radio_button"
+                android:layout_marginTop="3dp" />
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/answer4_radio_button"
+                android:layout_marginTop="3dp" />
+        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +88,7 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="Confirm Answer"
             android:id="@+id/button"
             android:background="#337ab7"
             android:layout_marginTop="15dp" />
