@@ -89,7 +89,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Confirm Answer"
-            android:id="@+id/button"
+            android:id="@+id/confirm_answer_button"
             android:background="#337ab7"
             android:layout_marginTop="15dp" />
     </LinearLayout>
