@@ -64,11 +64,22 @@ public class LoginPageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Effect.Log("Class LoginPageRequest", error.getMessage());
                 Effect.CloseSpinner();
-                Effect.Alert(context, "Wrong username or password.", "Okay");
+                Effect.Alert(context, "Wrong username or password.", "Got it");
             }
-        });
+        })
+        {
+             //In your extended request class
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError){
+                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
+                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    volleyError = error;
+                }
+
+                return volleyError;
+            }
+        };
         return request;
     }
 }
