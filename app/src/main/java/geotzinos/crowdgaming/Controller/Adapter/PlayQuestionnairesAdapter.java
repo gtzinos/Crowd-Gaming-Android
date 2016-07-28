@@ -1,7 +1,9 @@
 package geotzinos.crowdgaming.Controller.Adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.CountDownTimer;
 import android.text.Html;
@@ -22,6 +24,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
@@ -35,12 +38,14 @@ import geotzinos.crowdgaming.R;
 public class PlayQuestionnairesAdapter extends BaseAdapter {
     private final Context context;
     private Questionnaire questionnaire;
+    private User user;
     private Location location;
     private static LayoutInflater inflater = null;
 
-    public PlayQuestionnairesAdapter(Context context, Questionnaire questionnaire, Location location) {
+    public PlayQuestionnairesAdapter(Context context, Questionnaire questionnaire, Location location,User user) {
         this.context = context;
         this.questionnaire = questionnaire;
+        this.user = user;
         this.location = location;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -136,6 +141,23 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
 
             @Override
             public void onFinish() {
+                try {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setMessage("Question group time expired.")
+                            .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                    RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                    mRequestQueue.add(request);
+                                }
+                            })
+                            .create()
+                            .show();
+                } catch (Exception e) {
+                    Effect.Log("Class MyQuestionnairesAdapter", e.getMessage());
+                }
+                holder.playButton.setText("Completed");
                 holder.playButton.setEnabled(false);
             }
         }.start();
@@ -187,7 +209,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     JsonObjectRequest request = new PlayQuestionnairePageRequest()
-                            .ResetQuestionGroup(context, questionnaire.getId(), questionGroup.getId(), answered, total, holder.answersTextView, holder.resetButton);
+                            .ResetQuestionGroup(context, questionnaire.getId(), questionGroup.getId(), answered, total, holder.answersTextView, holder.resetButton,questionnaire,user);
 
                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                     mRequestQueue.add(request);
