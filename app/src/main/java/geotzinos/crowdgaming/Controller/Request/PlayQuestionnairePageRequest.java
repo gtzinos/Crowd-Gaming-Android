@@ -1,16 +1,20 @@
 package geotzinos.crowdgaming.Controller.Request;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +40,7 @@ public class PlayQuestionnairePageRequest {
 
     public JsonObjectRequest ResetQuestionGroup(final Context context, final long questionnaire_id, final long group_id,
                                                 final long answered, final long total, final TextView answersTextView,
-                                                final Button resetButton) {
+                                                final Button resetButton, final Questionnaire questionnaire, final User user) {
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/reset";
         Effect.ShowSpinner(context);
         JsonObjectRequest request = new JsonObjectRequest(URL, null,
@@ -53,7 +57,24 @@ public class PlayQuestionnairePageRequest {
                                 if (answered == total) {
                                     resetButton.setEnabled(false);
                                 }
-                                Effect.Alert(context, message, "Okay");
+
+                                try {
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                                    alert.setMessage("Question group reset completed.")
+                                            .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                                    RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                                    mRequestQueue.add(request);
+                                                }
+                                            })
+                                            .create()
+                                            .show();
+                                } catch (Exception e) {
+                                    Effect.Log("Class PlayQuestionnairePageRequest", e.getMessage());
+                                }
+
                                 Effect.Log("Class PlayQuestionnairePageRequest", "Get question groups request completed.");
                             }
                         } catch (JSONException e) {
@@ -63,13 +84,21 @@ public class PlayQuestionnairePageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-                Effect.Log("Class MyQuestionnairesPageRequest", error.getMessage());
                 Effect.CloseSpinner();
-                Effect.Alert(context, "You can't play this questionnaire.", "Okay");
+                Effect.Alert(context, "You can't reset this questionnaire.", "Got it");
             }
 
         }) {
+            //In your extended request class
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError){
+                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
+                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    volleyError = error;
+                }
+
+                return volleyError;
+            }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -119,6 +148,7 @@ public class PlayQuestionnairePageRequest {
                                 intent.putExtra("user", user);
                                 intent.putExtra("question", question);
                                 intent.putExtra("questionnaire", questionnaire);
+                                intent.putExtra("group_id",group_id);
                                 context.startActivity(intent);
                                 ((Activity) context).finish();
                                 Effect.Log("Class PlayQuestionnairePageRequest", "Get question request completed.");
@@ -130,11 +160,36 @@ public class PlayQuestionnairePageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Effect.Log("Class PlayQuestionnairePageRequest", error.getMessage());
+                try {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setMessage("Question group completed.")
+                            .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                    RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                    mRequestQueue.add(request);
+                                }
+                            })
+                            .create()
+                            .show();
+                } catch (Exception e) {
+                    Effect.Log("Class PlayQuestionnairePageRequest", e.getMessage());
+                }
                 Effect.CloseSpinner();
             }
 
         }) {
+            //In your extended request class
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError){
+                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
+                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    volleyError = error;
+                }
+
+                return volleyError;
+            }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
