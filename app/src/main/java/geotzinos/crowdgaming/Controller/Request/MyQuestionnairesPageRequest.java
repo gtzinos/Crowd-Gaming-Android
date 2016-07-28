@@ -81,12 +81,21 @@ public class MyQuestionnairesPageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Effect.Log("Class MyQuestionnairesPageRequest", error.getMessage());
                 Effect.CloseSpinner();
-                Effect.Alert(context, "Wrong username or password.", "Okay");
+                Effect.Alert(context, "Can't get questionnaires from server. Please try again later.", "Got it");
             }
 
         }) {
+            //In your extended request class
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError){
+                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
+                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    volleyError = error;
+                }
+
+                return volleyError;
+            }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -148,12 +157,21 @@ public class MyQuestionnairesPageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-                Effect.Log("Class MyQuestionnairesPageRequest", error.getMessage());
                 Effect.CloseSpinner();
-                Effect.Alert(context, "You can't play this questionnaire.", "Okay");
+                Effect.Alert(context, "You can't play a completed questionnaire.", "Got it");
             }
         }) {
+            //In your extended request class
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError){
+                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
+                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    volleyError = error;
+                }
+
+                return volleyError;
+            }
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
