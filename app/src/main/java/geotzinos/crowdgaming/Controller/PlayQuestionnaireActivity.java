@@ -66,6 +66,8 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
                 .addApi(LocationServices.API)
                 .build();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        CheckIfCompleted();
     }
 
     private void StartQuestionnaireTimer(final Context context, long time_left, final User user) {
@@ -200,7 +202,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
         if (mLocation != null) {
             double latitude = mLocation.getLatitude();
             double longitude = mLocation.getLongitude();
-            listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, mLocation));
+            listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, mLocation,user));
         } else {
             Effect.Log("PlayQuestionnaireActivity", "Location is null.");
         }
@@ -213,7 +215,38 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
 
     @Override
     public void onLocationChanged(Location location) {
-        listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, location));
+        listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, location,user));
+    }
+
+    //Check if a questionnaire is completed. Will redirect user to his questionnaires page
+    public void CheckIfCompleted() {
+        boolean completed = true;
+
+        for(int i=0;i<questionnaire.getQuestionGroupsList().size();i++)
+        {
+            if(!questionnaire.getQuestionGroupsList().get(i).getIs_completed())
+            {
+                completed = false;
+                break;
+            }
+        }
+
+        if(completed)
+        {
+            android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(this);
+            alert.setMessage("Questionnaire completed. you will be redirected to your questionnaires page.")
+                    .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getApplicationContext(),MyQuestionnairesActiviry.class);
+                            intent.putExtra("user", user);
+
+                            startActivity(intent);
+                        }
+                    })
+                    .create()
+                    .show();
+        }
     }
 
     @Override
