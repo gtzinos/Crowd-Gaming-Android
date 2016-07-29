@@ -42,14 +42,6 @@ public class LoginPageActivity extends AppCompatActivity {
         tvRegisterLink.setText(Html.fromHtml(String.valueOf("<a href=\"" + Config.WEB_ROOT + "\">Click here to register</a>")));
         tvRegisterLink.setMovementMethod(LinkMovementMethod.getInstance());
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
     }
 
     /**

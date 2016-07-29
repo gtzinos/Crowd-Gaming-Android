@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.location.Location;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         TextView answersTextView;
         TextView priorityTextView;
         TextView addressTextView;
+        TextView directionsTextView;
         Button resetButton;
         Button playButton;
     }
@@ -178,6 +180,10 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
 
     private void SetAddress(QuestionGroup questionGroup, final Holder holder) {
         if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
+            holder.directionsTextView.setText(Html.fromHtml(String.valueOf("<a href=\"https://www.google.gr/maps/dir//"
+                    + questionGroup.getLongitude() + "," + questionGroup.getLatitude() +"\">Take directions</a>")));
+            holder.directionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
             double distance = Double.parseDouble(calculateDistance(questionGroup));
             holder.addressTextView.setText(String.valueOf("Distance: " + distance + "m"));
             if (distance > 0 || questionGroup.getIs_completed()) {
@@ -187,6 +193,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             }
             //TODO Set a link to navigate users to google maps
         } else {
+            holder.directionsTextView.setText("Without coordinates");
             holder.addressTextView.setText(String.valueOf("Available everywhere."));
             if (!questionGroup.getIs_completed()) {
                 holder.playButton.setEnabled(true);
@@ -297,6 +304,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         holder.answersTextView = (TextView) rowView.findViewById(R.id.AnswersTextView);
         holder.priorityTextView = (TextView) rowView.findViewById(R.id.PriorityTextView);
         holder.addressTextView = (TextView) rowView.findViewById(R.id.AddressTextView);
+        holder.directionsTextView = (TextView) rowView.findViewById(R.id.DirectionsTextView);
         holder.resetButton = (Button) rowView.findViewById(R.id.ResetQuestionGroup);
         holder.playButton = (Button) rowView.findViewById(R.id.PlayQuestionGroupButton);
 
