@@ -40,7 +40,7 @@
             android:id="@+id/emailTextField"
             android:hint="@string/email_address_hint"
             android:gravity="center"
-            android:text="geotzinos@gmail.com"
+            android:text=""
             android:paddingTop="30dp" />
     </LinearLayout>
 
@@ -58,7 +58,7 @@
             android:ems="10"
             android:id="@+id/passwordTextField"
             android:hint="@string/password_hint"
-            android:text="temp"
+            android:text=""
             android:gravity="center" />
     </LinearLayout>
 
