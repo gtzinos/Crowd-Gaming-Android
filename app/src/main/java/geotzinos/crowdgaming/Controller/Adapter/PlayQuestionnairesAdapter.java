@@ -77,13 +77,13 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         Button playButton;
     }
 
-    private void SetTimerValue(QuestionGroup questionGroup, Holder holder) {
+    private void SetTimerValue(QuestionGroup questionGroup, Holder holder,int index) {
         String time_to_complete = questionGroup.getTime_to_complete();
         //With time
         if(time_to_complete != null && !time_to_complete.equals("-1")) {
             String time_left = questionGroup.getTime_left();
             //Dont started
-            if(time_left != null) {
+            if(time_left != null && time_left.equals(time_to_complete)) {
                 long millisecondsParsed = Long.parseLong(time_to_complete) * 1000;
                 holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#5cb85c'>" + String.valueOf(String.format(Locale.getDefault(),
                         "%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisecondsParsed),
@@ -98,7 +98,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             }
             //Started
             else {
-                StartTimer(questionGroup.getTime_left(),questionGroup.getTime_to_complete(), holder);
+                StartTimer(questionGroup.getTime_left(),questionGroup.getTime_to_complete(), holder,index);
             }
         }
         //No time
@@ -107,10 +107,10 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         }
     }
 
-    private void StartTimer(String time_left,String time_to_complete,final Holder holder) {
+    private void StartTimer(String time_left, String time_to_complete, final Holder holder, final int index) {
         if(time_left == null || time_left.equals("-1")) {
             long time_to_complete_ms = Long.parseLong(time_to_complete) * 60000;
-            holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'>" + String.valueOf(String.format(Locale.getDefault(),
+            holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#5cb85c'>" + String.valueOf(String.format(Locale.getDefault(),
                     "%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(time_to_complete_ms),
                     TimeUnit.MILLISECONDS.toMinutes(time_to_complete_ms)
@@ -121,6 +121,11 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                             - TimeUnit.MINUTES
                             .toSeconds(TimeUnit.MILLISECONDS
                                     .toMinutes(time_to_complete_ms))) + "</font></div>")));
+            return;
+        }
+        else if(time_left.equals("0") || Long.parseLong(time_left) < 0)
+        {
+            holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#d9534f'> Time expired. </font> </div>"));
             return;
         }
 
@@ -180,8 +185,8 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
 
     private void SetAddress(QuestionGroup questionGroup, final Holder holder) {
         if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
-            holder.directionsTextView.setText(Html.fromHtml(String.valueOf("<a href=\"https://www.google.gr/maps/dir//"
-                    + questionGroup.getLongitude() + "," + questionGroup.getLatitude() +"\">Take directions</a>")));
+            holder.directionsTextView.setText(Html.fromHtml(String.valueOf("<a href=\"https://www.google.com/maps/dir//"
+                    + questionGroup.getLatitude() + "," + questionGroup.getLongitude() +"\">Take directions</a>")));
             holder.directionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
             double distance = Double.parseDouble(calculateDistance(questionGroup));
@@ -232,7 +237,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         }
     }
 
-    private void SetPlayButtonListener(final Holder holder, final int position) {
+    public void SetPlayButtonListener(final Holder holder, final int position) {
         final User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
         final Questionnaire questionnaire = (Questionnaire) ((Activity) context).getIntent().getSerializableExtra("questionnaire");
 
@@ -254,9 +259,9 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                 }
             });
         } else if (questionnaire.getQuestionGroupsList().get(position).getIs_completed()) {
-            holder.playButton.setText(String.valueOf("COMPLETED"));
+            holder.playButton.setText(String.valueOf("Completed"));
         } else {
-            holder.playButton.setText(String.valueOf("PLAY NOW"));
+            holder.playButton.setText(String.valueOf("Play now"));
         }
     }
 
@@ -308,7 +313,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         holder.resetButton = (Button) rowView.findViewById(R.id.ResetQuestionGroup);
         holder.playButton = (Button) rowView.findViewById(R.id.PlayQuestionGroupButton);
 
-        SetTimerValue(questionnaire.getQuestionGroupsList().get(position), holder);
+        SetTimerValue(questionnaire.getQuestionGroupsList().get(position), holder,position);
         SetName(questionnaire.getQuestionGroupsList().get(position).getName(),holder);
         SetAnswers(questionnaire.getQuestionGroupsList().get(position).getAnswered_questions(),questionnaire.getQuestionGroupsList().get(position).getTotal_questions(),holder);
         SetPriority(questionnaire.getQuestionGroupsList().get(position).getPriority(),holder);
