@@ -1,7 +1,9 @@
 package geotzinos.crowdgaming.Controller.Request;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.ListView;
 
@@ -20,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import geotzinos.crowdgaming.Controller.Adapter.MyQuestionnairesAdapter;
+import geotzinos.crowdgaming.Controller.LoginPageActivity;
 import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
@@ -82,7 +85,17 @@ public class MyQuestionnairesPageRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Effect.CloseSpinner();
-                Effect.Alert(context, "Can't get questionnaires from server. Please try again later.", "Got it");
+                android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(context);
+                alert.setMessage("Can't get questionnaires from server. Please try again later.")
+                        .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(context, LoginPageActivity.class);
+                                ((Activity)context).startActivity(intent);
+                            }
+                        })
+                        .create()
+                        .show();
             }
 
         }) {
