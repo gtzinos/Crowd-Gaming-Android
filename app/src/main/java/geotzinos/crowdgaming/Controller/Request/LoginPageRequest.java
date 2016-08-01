@@ -1,7 +1,10 @@
 package geotzinos.crowdgaming.Controller.Request;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -10,6 +13,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 
 import geotzinos.crowdgaming.Controller.MyQuestionnairesActiviry;
@@ -51,6 +61,24 @@ public class LoginPageRequest {
 
                                 User user = new User(name, surname, api_token);
                                 Effect.CloseSpinner();
+
+                                String FILENAME = "hello_file";
+                                String string = "hello world!";
+                                try {
+                                    File file = new File("user.txt");
+                                    if(file.exists())
+                                    {
+                                        file.delete();
+                                    }
+                                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("user.txt", Context.MODE_PRIVATE));
+
+                                    outputStreamWriter.write("name=" + name + "###surname=" + surname + "###token=" + api_token);
+                                    outputStreamWriter.close();
+                                }
+                                catch (IOException e) {
+                                    Effect.Log("Exception", "File write failed: " + e.toString());
+                                }
+
                                 //Effect.Alert(context, "Welcome " + user.getName() + " " + user.getSurname(), "Okay");
                                 Intent intent = new Intent(context, MyQuestionnairesActiviry.class);
                                 intent.putExtra("user", user);
