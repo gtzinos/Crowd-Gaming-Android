@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -122,7 +123,7 @@ public class MyQuestionnairesPageRequest {
         return request;
     }
 
-    public JsonObjectRequest GetQuestionGroups(final Context context, final User user, final Questionnaire questionnaire) {
+    public JsonObjectRequest GetQuestionGroups(final Context context, final User user, final Questionnaire questionnaire,final Button playQuestionnaireButton) {
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire.getId() + "/group";
         questionnaire.getQuestionGroupsList().clear();
 
@@ -131,6 +132,13 @@ public class MyQuestionnairesPageRequest {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            if(playQuestionnaireButton != null)
+                            {
+                                playQuestionnaireButton.setFocusable(true);
+                                playQuestionnaireButton.setClickable(true);
+                                playQuestionnaireButton.setActivated(true);
+                            }
+
                             int code = response.getInt("code");
 
                             if (code == 200) {
@@ -170,6 +178,12 @@ public class MyQuestionnairesPageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(playQuestionnaireButton != null)
+                {
+                    playQuestionnaireButton.setFocusable(true);
+                    playQuestionnaireButton.setClickable(true);
+                    playQuestionnaireButton.setActivated(true);
+                }
                 Effect.CloseSpinner();
                 Effect.Alert(context, "You can't play a completed questionnaire.", "Got it");
             }
