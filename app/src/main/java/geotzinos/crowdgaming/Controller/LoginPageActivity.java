@@ -2,14 +2,19 @@ package geotzinos.crowdgaming.Controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -133,5 +139,35 @@ public class LoginPageActivity extends AppCompatActivity {
         JsonObjectRequest loginRequest = new LoginPageRequest().Login(this, emailText, passwordText, loginButton);
         RequestQueue mRequestQueue = Volley.newRequestQueue(this);
         mRequestQueue.add(loginRequest);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.guest_action_bar_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final Context context = this;
+
+        switch(item.getItemId())
+        {
+            case R.id.guest_close:
+                AlertDialog.Builder exit_alert = new AlertDialog.Builder(this);
+                exit_alert.setMessage("Do you really want to close this application ?");
+                exit_alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        System.exit(1);
+                    }
+                });
+                exit_alert.setNegativeButton("Cancel",null);
+                exit_alert.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
