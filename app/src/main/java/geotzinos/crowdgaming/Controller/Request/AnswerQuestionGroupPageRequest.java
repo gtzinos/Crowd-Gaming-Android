@@ -47,7 +47,7 @@ import geotzinos.crowdgaming.R;
  */
 public class AnswerQuestionGroupPageRequest {
     public JsonObjectRequest ConfirmAnswer(final Context context, final int index, final Question question, final User user,
-                                           final Location location, final Questionnaire questionnaire, final long group_id) {
+                                           final Location location, final Questionnaire questionnaire, final long group_id, final Button answerButton) {
         final String URL = Config.WEB_ROOT + "/rest_api/answer";
         Effect.ShowSpinner(context);
         HashMap<String, String> params = new HashMap<String, String>();
@@ -59,6 +59,12 @@ public class AnswerQuestionGroupPageRequest {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            if(answerButton != null)
+                            {
+                                answerButton.setFocusable(true);
+                                answerButton.setClickable(true);
+                                answerButton.setActivated(true);
+                            }
                             int code = response.getInt("code");
                             Effect.CloseSpinner();
                             Effect.Log("Class AnswerQuestionGroupPageRequest", "Answer question completed.");
@@ -76,7 +82,7 @@ public class AnswerQuestionGroupPageRequest {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     //Send request to get groups
-                                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                                     mRequestQueue.add(request);
                                                 }
@@ -95,6 +101,12 @@ public class AnswerQuestionGroupPageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(answerButton != null)
+                {
+                    answerButton.setFocusable(true);
+                    answerButton.setClickable(true);
+                    answerButton.setActivated(true);
+                }
                 Effect.CloseSpinner();
                 Effect.Alert(context,"Can't answer this question. Please try again!","Got it");
             }
@@ -126,7 +138,7 @@ public class AnswerQuestionGroupPageRequest {
     }
 
     CountDownTimer timer;
-    public JsonObjectRequest GetNextQuestion(final Context context, final User user, final Questionnaire questionnaire,
+    private JsonObjectRequest GetNextQuestion(final Context context, final User user, final Questionnaire questionnaire,
                                              final Question question, final long group_id, final Location location) {
         final long questionnaire_id = questionnaire.getId();
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/question";
@@ -242,8 +254,21 @@ public class AnswerQuestionGroupPageRequest {
                                     public void onClick(View v) {
                                         int radioButtonID = ((RadioGroup)((Activity)context).findViewById(R.id.answers_radio_group)).getCheckedRadioButtonId();
 
+                                        if(((Button)((Activity)context).findViewById(R.id.confirm_answer_button)) != null)
+                                        {
+                                            ((Button)((Activity)context).findViewById(R.id.confirm_answer_button)).setFocusable(false);
+                                            ((Button)((Activity)context).findViewById(R.id.confirm_answer_button)).setClickable(false);
+                                            ((Button)((Activity)context).findViewById(R.id.confirm_answer_button)).setActivated(false);
+                                        }
+
                                         if(radioButtonID == -1)
                                         {
+                                            if(((Button)((Activity)context).findViewById(R.id.confirm_answer_button)) != null)
+                                            {
+                                                ((Button)((Activity)context).findViewById(R.id.confirm_answer_button)).setFocusable(true);
+                                                ((Button)((Activity)context).findViewById(R.id.confirm_answer_button)).setClickable(true);
+                                                ((Button)((Activity)context).findViewById(R.id.confirm_answer_button)).setActivated(true);
+                                            }
                                             Effect.Alert(context,"Please select an answer.","Got it");
                                         }
                                         else {
@@ -254,7 +279,7 @@ public class AnswerQuestionGroupPageRequest {
                                                 timer.cancel();
                                             }
                                             JsonObjectRequest request = new AnswerQuestionGroupPageRequest().ConfirmAnswer(context, index, question, user, location
-                                                    , questionnaire, group_id);
+                                                    , questionnaire, group_id, ((Button)((Activity)context).findViewById(R.id.confirm_answer_button)));
                                             RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                             mRequestQueue.add(request);
                                         }
@@ -278,7 +303,7 @@ public class AnswerQuestionGroupPageRequest {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         //Send request to get groups
-                                        JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                        JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                         mRequestQueue.add(request);
                                     }
