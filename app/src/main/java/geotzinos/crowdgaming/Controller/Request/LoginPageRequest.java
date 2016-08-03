@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Button;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -36,7 +37,7 @@ public class LoginPageRequest {
     /*
        Login on platform. Get user personal key.
     */
-    public JsonObjectRequest Login(final Context context, String email, String password) {
+    public JsonObjectRequest Login(final Context context, String email, String password, final Button LoginButton) {
         final String URL = Config.WEB_ROOT + "/rest_api/authenticate";
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -93,6 +94,7 @@ public class LoginPageRequest {
             public void onErrorResponse(VolleyError error) {
                 Effect.CloseSpinner();
                 Effect.Alert(context, "Wrong username or password.", "Got it");
+                LoginButton.setEnabled(true);
             }
         })
         {

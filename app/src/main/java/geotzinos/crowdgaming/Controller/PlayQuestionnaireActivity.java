@@ -16,7 +16,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +32,9 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import geotzinos.crowdgaming.Controller.Adapter.PlayQuestionnairesAdapter;
+import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Effect;
+import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
@@ -202,6 +207,9 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
         if (mLocation != null) {
             double latitude = mLocation.getLatitude();
             double longitude = mLocation.getLongitude();
+            if(listView.getAdapter() != null && listView.getAdapter().getItem(0) != null) {
+                questionnaire = (Questionnaire) listView.getAdapter().getItem(0);
+            }
             listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, mLocation,user));
         } else {
             Effect.Log("PlayQuestionnaireActivity", "Location is null.");
@@ -215,7 +223,36 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
 
     @Override
     public void onLocationChanged(Location location) {
-        listView.setAdapter(new PlayQuestionnairesAdapter(this, questionnaire, location,user));
+        try {
+
+            if (listView.getAdapter() != null && listView.getAdapter().getItem(0) != null) {
+                for (int i = 0; i < questionnaire.getQuestionGroupsList().size(); i++) {
+                    View v = listView.getChildAt(i -
+                            listView.getFirstVisiblePosition());
+
+                    QuestionGroup questionGroup = (QuestionGroup) listView.getAdapter().getItem(i);
+
+                    if (v == null || questionGroup == null)
+                        continue;
+
+                    TextView addressTextView = (TextView) v.findViewById(R.id.AddressTextView);
+                    Button playButton = (Button) v.findViewById(R.id.PlayQuestionGroupButton);
+
+                    if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
+                        double distance = Double.parseDouble(Calculation.calculateDistance(questionGroup, location));
+                        addressTextView.setText(String.valueOf("Distance: " + distance + "m"));
+                        if (distance > 0 || questionGroup.getIs_completed()) {
+                            playButton.setEnabled(false);
+                        } else {
+                            playButton.setEnabled(true);
+                        }
+                    }
+                }
+            }
+        }catch(Exception e)
+        {
+            return;
+        }
     }
 
     //Check if a questionnaire is completed. Will redirect user to his questionnaires page
@@ -251,6 +288,5 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 }
