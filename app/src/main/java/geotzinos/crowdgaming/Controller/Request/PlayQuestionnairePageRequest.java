@@ -48,6 +48,12 @@ public class PlayQuestionnairePageRequest {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            if(resetButton != null)
+                            {
+                                resetButton.setFocusable(true);
+                                resetButton.setClickable(true);
+                                resetButton.setActivated(true);
+                            }
                             int code = response.getInt("code");
 
                             if (code == 200) {
@@ -64,7 +70,7 @@ public class PlayQuestionnairePageRequest {
                                             .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                                     mRequestQueue.add(request);
                                                 }
@@ -84,6 +90,12 @@ public class PlayQuestionnairePageRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(resetButton != null)
+                {
+                    resetButton.setFocusable(true);
+                    resetButton.setClickable(true);
+                    resetButton.setActivated(true);
+                }
                 Effect.CloseSpinner();
                 Effect.Alert(context, "You can't reset this questionnaire.", "Got it");
             }
@@ -113,7 +125,8 @@ public class PlayQuestionnairePageRequest {
         return request;
     }
 
-    public JsonObjectRequest GetNextQuestion(final Context context, final User user, final Questionnaire questionnaire, final long group_id, final Location location) {
+    public JsonObjectRequest GetNextQuestion(final Context context, final User user, final Questionnaire questionnaire,
+                                             final long group_id, final Location location, final Button playButton) {
         final long questionnaire_id = questionnaire.getId();
         final String URL = Config.WEB_ROOT + "/rest_api/questionnaire/" + questionnaire_id + "/group/" + group_id + "/question";
 
@@ -125,6 +138,12 @@ public class PlayQuestionnairePageRequest {
                         try {
                             int code = response.getInt("code");
                             Effect.CloseSpinner();
+                            if(playButton != null)
+                            {
+                                playButton.setFocusable(true);
+                                playButton.setClickable(true);
+                                playButton.setActivated(true);
+                            }
                             if (code == 200) {
                                 JSONObject questionJObject = response.getJSONObject("question");
                                 long id = Calculation.getLongJsonValue(questionJObject, "id");
@@ -161,12 +180,18 @@ public class PlayQuestionnairePageRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try {
+                    if(playButton != null)
+                    {
+                        playButton.setFocusable(true);
+                        playButton.setClickable(true);
+                        playButton.setActivated(true);
+                    }
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
                     alert.setMessage("Question group completed.")
                             .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                     mRequestQueue.add(request);
                                 }
