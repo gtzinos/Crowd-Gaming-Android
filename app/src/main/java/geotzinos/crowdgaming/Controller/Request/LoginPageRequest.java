@@ -62,10 +62,9 @@ public class LoginPageRequest {
                                 User user = new User(name, surname, api_token);
                                 Effect.CloseSpinner();
 
-                                String FILENAME = "hello_file";
-                                String string = "hello world!";
                                 try {
-                                    File file = new File("user.txt");
+                                    File dir = context.getFilesDir();
+                                    File file = new File(dir, "user.txt");
                                     if(file.exists())
                                     {
                                         file.delete();
