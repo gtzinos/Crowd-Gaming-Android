@@ -186,7 +186,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
     private void SetAddress(QuestionGroup questionGroup, final Holder holder) {
         if (questionGroup.getLatitude() != null && questionGroup.getLongitude() != null) {
             holder.directionsTextView.setText(Html.fromHtml(String.valueOf("<a href=\"https://www.google.com/maps/dir//"
-                    + questionGroup.getLatitude() + "," + questionGroup.getLongitude() +"\">Take directions</a>")));
+                    + questionGroup.getLatitude() + "," + questionGroup.getLongitude() +"\">Get directions</a>")));
             holder.directionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
             double distance = Double.parseDouble(calculateDistance(questionGroup));
