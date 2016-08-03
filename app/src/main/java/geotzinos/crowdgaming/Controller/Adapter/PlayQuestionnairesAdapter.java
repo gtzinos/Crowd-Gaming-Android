@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
+import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
@@ -154,7 +155,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                             .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire);
+                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                     mRequestQueue.add(request);
                                 }
@@ -189,7 +190,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                     + questionGroup.getLatitude() + "," + questionGroup.getLongitude() +"\">Get directions</a>")));
             holder.directionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-            double distance = Double.parseDouble(calculateDistance(questionGroup));
+            double distance = Double.parseDouble(Calculation.calculateDistance(questionGroup,location));
             holder.addressTextView.setText(String.valueOf("Distance: " + distance + "m"));
             if (distance > 0 || questionGroup.getIs_completed()) {
                 holder.playButton.setEnabled(false);
@@ -219,6 +220,10 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             holder.resetButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    holder.resetButton.setFocusable(false);
+                    holder.resetButton.setClickable(false);
+                    holder.resetButton.setActivated(false);
+
                     JsonObjectRequest request = new PlayQuestionnairePageRequest()
                             .ResetQuestionGroup(context, questionnaire.getId(), questionGroup.getId(), answered, total, holder.answersTextView, holder.resetButton,questionnaire,user);
 
@@ -244,14 +249,17 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             holder.playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    holder.playButton.setFocusable(false);
+                    holder.playButton.setClickable(false);
+                    holder.playButton.setActivated(false);
                     JsonObjectRequest request;
                     long group_id = questionnaire.getQuestionGroupsList().get(position).getId();
                     if (questionnaire.getQuestionGroupsList().get(position).getLatitude() != null && questionnaire.getQuestionGroupsList().get(position).getLongitude() != null) {
                         request = new PlayQuestionnairePageRequest().
-                                GetNextQuestion(context, user, questionnaire, group_id, location);
+                                GetNextQuestion(context, user, questionnaire, group_id, location,holder.playButton);
                     } else {
                         request = new PlayQuestionnairePageRequest()
-                                .GetNextQuestion(context, user, questionnaire, group_id, null);
+                                .GetNextQuestion(context, user, questionnaire, group_id, null,holder.playButton);
                     }
                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                     mRequestQueue.add(request);
@@ -264,39 +272,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
         }
     }
 
-    //calculate client distance from question group
-    private String calculateDistance(QuestionGroup questionGroup) {
-        long R = 6371; // Radius of the earth in km
-        double dLat = Math.toRadians(Double.parseDouble(questionGroup.getLatitude()) - location.getLatitude());
-        double dLon = Math.toRadians(Double.parseDouble(questionGroup.getLongitude()) - location.getLongitude());
-        double lat1 = Math.toRadians(Double.parseDouble(questionGroup.getLatitude()));
-        double lat2 = Math.toRadians(location.getLatitude());
 
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double d = R * c;
-
-        //Convert km to meters
-        d = d * 1000;
-
-        //Check the final distance
-        if (d - Double.parseDouble(questionGroup.getRadius()) >= 0) {
-            d = d - Double.parseDouble(questionGroup.getRadius());
-        } else {
-            d = 0;
-        }
-        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
-        otherSymbols.setDecimalSeparator('.');
-        otherSymbols.setGroupingSeparator(',');
-        DecimalFormat df = new DecimalFormat("#.##", otherSymbols);
-        df.setRoundingMode(RoundingMode.CEILING);
-
-        df.format(d);
-
-        //return value formatted with 2 decimals
-        return df.format(d);
-    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
