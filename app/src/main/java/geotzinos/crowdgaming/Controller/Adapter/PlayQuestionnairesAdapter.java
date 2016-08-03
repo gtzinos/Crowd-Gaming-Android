@@ -196,7 +196,6 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             } else {
                 holder.playButton.setEnabled(true);
             }
-            //TODO Set a link to navigate users to google maps
         } else {
             holder.directionsTextView.setText("Without coordinates");
             holder.addressTextView.setText(String.valueOf("Available everywhere."));
