@@ -86,9 +86,12 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
                 holder.playQuestionnaireButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        holder.playQuestionnaireButton.setFocusable(false);
+                        holder.playQuestionnaireButton.setClickable(false);
+                        holder.playQuestionnaireButton.setActivated(false);
                         User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
                         //Send request to get groups
-                        JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaires.get(position));
+                        JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaires.get(position),holder.playQuestionnaireButton);
                         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                         mRequestQueue.add(request);
                     }
@@ -134,9 +137,13 @@ public class MyQuestionnairesAdapter extends BaseAdapter {
                         holder.playQuestionnaireButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                holder.playQuestionnaireButton.setFocusable(false);
+                                holder.playQuestionnaireButton.setClickable(false);
+                                holder.playQuestionnaireButton.setActivated(false);
+
                                 User user = (User) ((Activity) context).getIntent().getSerializableExtra("user");
                                 //Send request to get groups
-                                JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaires.get(position));
+                                JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaires.get(position),holder.playQuestionnaireButton);
                                 RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                 mRequestQueue.add(request);
                             }
