@@ -16,8 +16,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -28,6 +30,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.File;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -288,5 +291,55 @@ public class PlayQuestionnaireActivity extends AppCompatActivity implements Goog
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.logged_in_action_bar_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final Context context = this;
+
+        switch(item.getItemId())
+        {
+            case R.id.user_sign_out:
+                android.support.v7.app.AlertDialog.Builder signout_alert = new android.support.v7.app.AlertDialog.Builder(this);
+                signout_alert.setMessage("Do you really want to log out ?");
+                signout_alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        File dir = getFilesDir();
+                        File file = new File(dir, "user.txt");
+                        if(file.exists())
+                        {
+                            file.delete();
+                        }
+
+                        Intent intent = new Intent(context,LoginPageActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                signout_alert.setNegativeButton("Cancel",null);
+                signout_alert.show();
+                break;
+            case R.id.user_close:
+                android.support.v7.app.AlertDialog.Builder exit_alert = new android.support.v7.app.AlertDialog.Builder(this);
+                exit_alert.setMessage("Do you really want to close this application ?");
+                exit_alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        System.exit(1);
+                    }
+                });
+                exit_alert.setNegativeButton("Cancel",null);
+                exit_alert.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
