@@ -103,9 +103,16 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity implements G
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                answerButton.setFocusable(false);
+                answerButton.setClickable(false);
+                answerButton.setActivated(false);
+
                 int radioButtonID = answerGroup.getCheckedRadioButtonId();
                 if(radioButtonID == -1)
                 {
+                    answerButton.setFocusable(true);
+                    answerButton.setClickable(true);
+                    answerButton.setActivated(true);
                     Effect.Alert(context,"Please select an answer.","Got it");
                 }
                 else {
@@ -115,7 +122,7 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity implements G
                         timer.cancel();
                     }
                     JsonObjectRequest request = new AnswerQuestionGroupPageRequest().ConfirmAnswer(context, index, question, user, mLocation,
-                            questionnaire, group_id);
+                            questionnaire, group_id, answerButton);
                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                     mRequestQueue.add(request);
                 }
@@ -205,7 +212,7 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity implements G
     private void GoBack() {
         try {
             //Send request to get groups
-            JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(this, user, questionnaire);
+            JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(this, user, questionnaire,null);
             RequestQueue mRequestQueue = Volley.newRequestQueue(this);
             mRequestQueue.add(request);
         } catch (Exception e) {
