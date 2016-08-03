@@ -1,5 +1,8 @@
 # Crowd Gaming Android Client
 
+Playstore:
+https://play.google.com/store/apps/details?id=geotzinos.crowdgaming
+
 Testing Build:
 https://crowd-gaming.skourtis.me
 
