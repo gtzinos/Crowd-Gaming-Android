@@ -110,6 +110,7 @@ public class LoginPageActivity extends AppCompatActivity {
         Login using api
     */
     public void Login() {
+        loginButton.setEnabled(false);
         //Store credentials
         String emailText = etEmail.getText().toString();
         String passwordText = etPassword.getText().toString();
@@ -117,9 +118,11 @@ public class LoginPageActivity extends AppCompatActivity {
         int validationResults = Validate.LoginCredentials(emailText, passwordText);
 
         if (validationResults == -1) {
+            loginButton.setEnabled(true);
             Effect.Alert(LoginPageActivity.this, "Login failed. Fill a valid email address.", "Okay");
             return;
         } else if (validationResults == -2) {
+            loginButton.setEnabled(true);
             Effect.Alert(LoginPageActivity.this, "Login failed. Fill a valid password.", "Okay");
             return;
         }
@@ -127,7 +130,7 @@ public class LoginPageActivity extends AppCompatActivity {
         //Loader
         Effect.ShowSpinner(this, "Loading", "Please wait while trying to login.");
 
-        JsonObjectRequest loginRequest = new LoginPageRequest().Login(this, emailText, passwordText);
+        JsonObjectRequest loginRequest = new LoginPageRequest().Login(this, emailText, passwordText, loginButton);
         RequestQueue mRequestQueue = Volley.newRequestQueue(this);
         mRequestQueue.add(loginRequest);
     }
