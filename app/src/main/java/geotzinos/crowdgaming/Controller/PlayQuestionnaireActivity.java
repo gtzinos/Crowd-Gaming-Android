@@ -258,6 +258,16 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
                         break;
                     case Activity.RESULT_CANCELED:
                         Effect.Log("PlayQuestionnaireActivity", "User chose not to make required location settings changes.");
+                        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                        alert.setMessage("You should give us access on your location service to enter here.")
+                                .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        GoBack();
+                                    }
+                                })
+                                .create()
+                                .show();
                         break;
                 }
                 break;
