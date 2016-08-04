@@ -286,6 +286,16 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("You should give us access on your location service to enter here.")
+                    .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            GoBack();
+                        }
+                    })
+                    .create()
+                    .show();
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
@@ -454,6 +464,16 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
                 //                                          int[] grantResults)
                 // to handle the case where the user grants the permission. See the documentation
                 // for ActivityCompat#requestPermissions for more details.
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setMessage("You should give us access on your location service to enter here.")
+                        .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GoBack();
+                            }
+                        })
+                        .create()
+                        .show();
                 return;
             }
             startLocationUpdates();
