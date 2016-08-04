@@ -212,17 +212,35 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
                 break;
             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                 Effect.Log("PlayQuestionnaireActivity", "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
-
                 try {
                     // Show the dialog by calling startResolutionForResult(), and check the result
                     // in onActivityResult().
                     status.startResolutionForResult(PlayQuestionnaireActivity.this, REQUEST_CHECK_SETTINGS);
                 } catch (IntentSender.SendIntentException e) {
-
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setMessage("You should give us access on your location service to enter here.")
+                            .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    GoBack();
+                                }
+                            })
+                            .create()
+                            .show();
                     Effect.Log("PlayQuestionnaireActivity", "Pending Intent unable to execute request.");
                 }
                 break;
             case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setMessage("You should give us access on your location service to enter here.")
+                        .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GoBack();
+                            }
+                        })
+                        .create()
+                        .show();
                 Effect.Log("PlayQuestionnaireActivity", "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
                 break;
         }
