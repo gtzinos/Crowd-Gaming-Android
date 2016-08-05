@@ -204,7 +204,7 @@ public class AnswerQuestionGroupPageRequest {
                                     ((TextView)((Activity)context).findViewById(R.id.QuestionTimeTextView)).setText(String.valueOf("Full time to answer."));
                                 }
                                 else {
-                                    final long milliseconds = (long) question.getTimeToAnswer() * (long) 60000;
+                                    final long milliseconds = (long) question.getTimeToAnswer() * (long) 1000;
                                     timer = new CountDownTimer(milliseconds, 1000) {
                                         @Override
                                         public void onTick(long millisUntilFinished) {
