@@ -418,7 +418,6 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
         mGoogleApiClient.disconnect();
     }
 
-
     /**
      * Removes location updates from the FusedLocationApi.
      */
@@ -436,7 +435,6 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
             }
         });
     }
-
 
     /**
      * Runs when a GoogleApiClient object successfully connects.
@@ -498,8 +496,17 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage("You should give us access on your location service to enter here.")
+                .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        GoBack();
+                    }
+                })
+                .create()
+                .show();
     }
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -568,8 +575,6 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
                     .show();
         }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
