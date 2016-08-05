@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -110,7 +111,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
 
     private void StartTimer(String time_left, String time_to_complete, final Holder holder, final int index) {
         if(time_left == null || time_left.equals("-1")) {
-            long time_to_complete_ms = Long.parseLong(time_to_complete) * 60000;
+            long time_to_complete_ms = Long.parseLong(time_to_complete) * 1000;
             holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#5cb85c'>" + String.valueOf(String.format(Locale.getDefault(),
                     "%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(time_to_complete_ms),
@@ -130,7 +131,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             return;
         }
 
-        final long milliseconds = Long.parseLong(time_left) * 60000;
+        final long milliseconds = Long.parseLong(time_left) * 1000;
         new CountDownTimer(milliseconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -249,6 +250,27 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             holder.playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String locationProviders = Settings.Secure.getString(((Activity)context).getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+                    if (locationProviders == null || locationProviders.equals("")) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setMessage("You should give us access on your location service to enter here.")
+                                .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        try {
+                                            //Send request to get groups
+                                            JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
+                                            RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                            mRequestQueue.add(request);
+                                        } catch (Exception e) {
+                                            Effect.Log("AnswerQuestionGroupActivity", e.getMessage());
+                                        }
+                                    }
+                                })
+                                .create()
+                                .show();
+                        return;
+                    }
                     holder.playButton.setFocusable(false);
                     holder.playButton.setClickable(false);
                     holder.playButton.setActivated(false);
