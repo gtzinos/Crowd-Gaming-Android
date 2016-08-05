@@ -25,11 +25,9 @@
             android:name=".Controller.MyQuestionnairesActiviry"
             android:noHistory="true" />
         <activity
-            android:name=".Controller.PlayQuestionnaireActivity"
-           ></activity>
+            android:name=".Controller.PlayQuestionnaireActivity"></activity>
         <activity
-            android:name=".Controller.AnswerQuestionGroupActivity"
-            android:noHistory="true"></activity>
+            android:name=".Controller.AnswerQuestionGroupActivity" ></activity>
     </application>
 
 </manifest>
