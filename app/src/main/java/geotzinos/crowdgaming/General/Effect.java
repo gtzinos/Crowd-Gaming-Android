@@ -37,7 +37,9 @@ public class Effect {
         Remove spinner from page
     */
     public static void CloseSpinner() {
-        spinner.dismiss();
+        if(spinner != null) {
+            spinner.dismiss();
+        }
     }
 
     /*
