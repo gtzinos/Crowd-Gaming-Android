@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -186,9 +187,9 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
     protected synchronized void buildGoogleApiClient() {
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
                 .build();
         Effect.Log("AnswerQuestionGroupActivity", "GoogleApiClient build.");
     }
@@ -361,13 +362,27 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
                 mRequestingLocationUpdates = true;
             }
         });
-
     }
 
     private void SetAnswerButtonListener(final Context context, final Question question, final User user) {
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String locationProviders = new String(Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED));
+
+                if (locationProviders == null || locationProviders.equals("")) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setMessage("You should give us access on your location service to enter here.")
+                            .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    checkLocationSettings();
+                                }
+                            })
+                            .create()
+                            .show();
+                    return;
+                }
                 answerButton.setFocusable(false);
                 answerButton.setClickable(false);
                 answerButton.setActivated(false);
@@ -420,7 +435,7 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
             return;
         }
 
-        final long milliseconds = (long) question.getTimeToAnswer() * (long) 60000;
+        final long milliseconds = (long) question.getTimeToAnswer() * (long) 1000;
         timer = new CountDownTimer(milliseconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -591,24 +606,42 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
                         .show();
                 return;
             }
-            startLocationUpdates();
+
             mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+            startLocationUpdates();
+            if(mLocation != null)
+            {
+                SetAnswerButtonListener(this,question,user);
+            }
         }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Effect.Log("AnswerQuestionGroupActivity", "Connection suspended");
+        onConnectionSuspended(i);
+        Effect.Log("AnswerQuestionGroupActivity", "Connection suspended.");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        onConnectionFailed(connectionResult);
+        Effect.Log("AnswerQuestionGroupActivity", "Connection failed.");
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage("You should give us access on your location service to answer a question.")
+                .setPositiveButton("Got It", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override
     public void onLocationChanged(Location location) {
         mLocation = location;
+        SetAnswerButtonListener(this,question,user);
     }
-
 }
