@@ -36,6 +36,7 @@ import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
+import geotzinos.crowdgaming.General.ErrorParser;
 import geotzinos.crowdgaming.Model.Domain.Answer;
 import geotzinos.crowdgaming.Model.Domain.Question;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
@@ -108,7 +109,7 @@ public class AnswerQuestionGroupPageRequest {
                     answerButton.setActivated(true);
                 }
                 Effect.CloseSpinner();
-                Effect.Alert(context,"Can't answer this question. Please try again!","Got it");
+                Effect.Alert(context, ErrorParser.ResponseError(error),"Got it");
             }
 
 
@@ -116,12 +117,7 @@ public class AnswerQuestionGroupPageRequest {
             //In your extended request class
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError){
-                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                    volleyError = error;
-                }
-
-                return volleyError;
+                return ErrorParser.NetworkErrors(volleyError);
             }
 
             @Override
@@ -298,7 +294,7 @@ public class AnswerQuestionGroupPageRequest {
                 //Back to question groups
                 try {
                         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setMessage("Question group completed.")
+                        alert.setMessage(ErrorParser.ResponseError(error))
                                 .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -319,12 +315,7 @@ public class AnswerQuestionGroupPageRequest {
             //In your extended request class
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError){
-                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                    volleyError = error;
-                }
-
-                return volleyError;
+                return ErrorParser.NetworkErrors(volleyError);
             }
 
             @Override
