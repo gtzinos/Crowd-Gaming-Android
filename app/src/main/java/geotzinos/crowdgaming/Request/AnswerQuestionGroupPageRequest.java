@@ -25,12 +25,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import geotzinos.crowdgaming.Controller.LoginPageActivity;
 import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
@@ -109,11 +111,29 @@ public class AnswerQuestionGroupPageRequest {
                 }
                 Effect.CloseSpinner();
                 try {
+                    final String errorMessage = ErrorParser.ResponseError(error);
+
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setMessage(ErrorParser.ResponseError(error))
+                    alert.setMessage(errorMessage)
                             .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if(errorMessage.equals("Please check your internet connection."))
+                                    {
+                                        File dir = context.getFilesDir();
+                                        File file = new File(dir, "user.txt");
+                                        if(file.exists())
+                                        {
+                                            file.delete();
+                                        }
+                                        Intent intent = new Intent(context, LoginPageActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                        ((Activity)context).startActivity(intent);
+                                        ((Activity)context).finish();
+                                        return;
+                                    }
+
                                     //Send request to get groups
                                     JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
@@ -247,6 +267,8 @@ public class AnswerQuestionGroupPageRequest {
                                                                 Intent intent = new Intent(context, PlayQuestionnaireActivity.class);
                                                                 intent.putExtra("user", user);
                                                                 intent.putExtra("questionnaire", questionnaire);
+                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                                                                 context.startActivity(intent);
                                                                 ((Activity) context).finish();
                                                             }
@@ -306,13 +328,30 @@ public class AnswerQuestionGroupPageRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Effect.CloseSpinner();
+                final String errorMessage = ErrorParser.ResponseError(error);
                 //Back to question groups
                 try {
                         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setMessage(ErrorParser.ResponseError(error))
+                        alert.setMessage(errorMessage)
                                 .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        if(errorMessage.equals("Please check your internet connection."))
+                                        {
+                                            File dir = context.getFilesDir();
+                                            File file = new File(dir, "user.txt");
+                                            if(file.exists())
+                                            {
+                                                file.delete();
+                                            }
+                                            Intent intent = new Intent(context, LoginPageActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                            ((Activity)context).startActivity(intent);
+                                            ((Activity)context).finish();
+                                            return;
+                                        }
+
                                         //Send request to get groups
                                         JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
