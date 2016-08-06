@@ -28,6 +28,7 @@ import geotzinos.crowdgaming.Controller.AnswerQuestionGroupActivity;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
+import geotzinos.crowdgaming.General.ErrorParser;
 import geotzinos.crowdgaming.Model.Domain.Answer;
 import geotzinos.crowdgaming.Model.Domain.Question;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
@@ -187,7 +188,7 @@ public class PlayQuestionnairePageRequest {
                         playButton.setActivated(true);
                     }
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setMessage("Question group completed.")
+                    alert.setMessage(ErrorParser.ResponseError(error))
                             .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -208,12 +209,7 @@ public class PlayQuestionnairePageRequest {
             //In your extended request class
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError){
-                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                    volleyError = error;
-                }
-
-                return volleyError;
+                return ErrorParser.NetworkErrors(volleyError);
             }
 
             @Override
