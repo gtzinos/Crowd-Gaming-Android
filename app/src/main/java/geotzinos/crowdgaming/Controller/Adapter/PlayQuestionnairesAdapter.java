@@ -98,6 +98,10 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                                 .toSeconds(TimeUnit.MILLISECONDS
                                         .toMinutes(millisecondsParsed))) + "</font></div>")));
             }
+            else if(questionGroup.getIs_completed())
+            {
+                holder.groupTimeLeftTextView.setText(Html.fromHtml("<div><font color='#5cb85c'>Completed</font></div>"));
+            }
             //Started
             else {
                 StartTimer(questionGroup.getTime_left(),questionGroup.getTime_to_complete(), holder,index);
@@ -204,6 +208,9 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
             if (!questionGroup.getIs_completed()) {
                 holder.playButton.setEnabled(true);
             }
+            else {
+                holder.playButton.setEnabled(false);
+            }
         }
     }
 
@@ -233,12 +240,7 @@ public class PlayQuestionnairesAdapter extends BaseAdapter {
                 }
             });
         } else {
-            holder.resetButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Effect.Alert(context, "You can't reset a completed question group.", "Okay");
-                }
-            });
+            holder.resetButton.setVisibility(View.GONE);
         }
     }
 
