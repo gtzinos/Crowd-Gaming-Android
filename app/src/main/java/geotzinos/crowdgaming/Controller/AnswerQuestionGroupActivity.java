@@ -522,7 +522,9 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
                         }
 
                         Intent intent = new Intent(context,LoginPageActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        ((Activity)context).finish();
                     }
                 });
                 signout_alert.setNegativeButton("Cancel",null);
@@ -534,6 +536,7 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
                 exit_alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        ((Activity)context).finish();
                         android.os.Process.killProcess(android.os.Process.myPid());
                         System.exit(1);
                     }
