@@ -109,7 +109,23 @@ public class AnswerQuestionGroupPageRequest {
                     answerButton.setActivated(true);
                 }
                 Effect.CloseSpinner();
-                Effect.Alert(context, ErrorParser.ResponseError(error),"Got it");
+                try {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setMessage(ErrorParser.ResponseError(error))
+                            .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Send request to get groups
+                                    JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
+                                    RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                    mRequestQueue.add(request);
+                                }
+                            })
+                            .create()
+                            .show();
+                } catch (Exception e) {
+                    Effect.Log("Class AnswerQuestionGroupPageRequest", e.getMessage());
+                }
             }
 
 
