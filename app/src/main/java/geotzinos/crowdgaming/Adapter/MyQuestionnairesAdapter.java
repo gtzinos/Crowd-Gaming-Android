@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Controller.Adapter;
+package geotzinos.crowdgaming.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
+import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
 
 /**
  * Created by George on 2016-06-30.

@@ -9,12 +9,10 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -48,16 +46,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import geotzinos.crowdgaming.Controller.Adapter.PlayQuestionnairesAdapter;
-import geotzinos.crowdgaming.Controller.Request.AnswerQuestionGroupPageRequest;
-import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
-import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.Question;
-import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
+import geotzinos.crowdgaming.Request.AnswerQuestionGroupPageRequest;
+import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
 
 public class AnswerQuestionGroupActivity  extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,

@@ -1,9 +1,7 @@
-package geotzinos.crowdgaming.Controller.Request;
+package geotzinos.crowdgaming.Request;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.ListView;
@@ -12,7 +10,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,8 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import geotzinos.crowdgaming.Controller.Adapter.MyQuestionnairesAdapter;
-import geotzinos.crowdgaming.Controller.LoginPageActivity;
+import geotzinos.crowdgaming.Adapter.MyQuestionnairesAdapter;
 import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;

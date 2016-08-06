@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Controller.Adapter;
+package geotzinos.crowdgaming.Adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,20 +20,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
-import geotzinos.crowdgaming.Controller.Request.PlayQuestionnairePageRequest;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Effect;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
+import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
+import geotzinos.crowdgaming.Request.PlayQuestionnairePageRequest;
 
 /**
  * Created by George on 2016-07-02.

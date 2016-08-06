@@ -1,7 +1,5 @@
 package geotzinos.crowdgaming.General;
 
-import android.content.Context;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;

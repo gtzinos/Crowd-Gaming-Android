@@ -1,4 +1,4 @@
-package geotzinos.crowdgaming.Controller.Request;
+package geotzinos.crowdgaming.Request;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

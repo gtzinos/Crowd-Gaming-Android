@@ -1,6 +1,5 @@
 package geotzinos.crowdgaming.Controller;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,9 +17,9 @@ import com.android.volley.toolbox.Volley;
 
 import java.io.File;
 
-import geotzinos.crowdgaming.Controller.Request.MyQuestionnairesPageRequest;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
+import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
 
 public class MyQuestionnairesActiviry extends AppCompatActivity {
     /* Variables */
