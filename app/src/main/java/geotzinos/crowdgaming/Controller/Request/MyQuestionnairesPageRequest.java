@@ -28,6 +28,7 @@ import geotzinos.crowdgaming.Controller.PlayQuestionnaireActivity;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
+import geotzinos.crowdgaming.General.ErrorParser;
 import geotzinos.crowdgaming.Model.Domain.QuestionGroup;
 import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
@@ -86,29 +87,14 @@ public class MyQuestionnairesPageRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Effect.CloseSpinner();
-                android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(context);
-                alert.setMessage("Can't get questionnaires from server. Please try again later.")
-                        .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(context, LoginPageActivity.class);
-                                ((Activity)context).startActivity(intent);
-                            }
-                        })
-                        .create()
-                        .show();
+                Effect.Alert(context,ErrorParser.ResponseError(error),"Got It");
             }
 
         }) {
             //In your extended request class
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError){
-                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                    volleyError = error;
-                }
-
-                return volleyError;
+                return ErrorParser.NetworkErrors(volleyError);
             }
 
             @Override
@@ -185,18 +171,13 @@ public class MyQuestionnairesPageRequest {
                     playQuestionnaireButton.setActivated(true);
                 }
                 Effect.CloseSpinner();
-                Effect.Alert(context, "You can't play a completed questionnaire.", "Got it");
+                Effect.Alert(context,ErrorParser.ResponseError(error),"Got It");
             }
         }) {
             //In your extended request class
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError){
-                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                    volleyError = error;
-                }
-
-                return volleyError;
+                return ErrorParser.NetworkErrors(volleyError);
             }
 
             @Override
