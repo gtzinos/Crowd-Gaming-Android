@@ -1,5 +1,6 @@
 package geotzinos.crowdgaming.Controller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -71,8 +72,9 @@ public class LoginPageActivity extends AppCompatActivity {
                     {
                         Intent intent = new Intent(this, MyQuestionnairesActiviry.class);
                         intent.putExtra("user", user);
-
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        finish();
                     }
                 }
             }
@@ -155,6 +157,7 @@ public class LoginPageActivity extends AppCompatActivity {
                 exit_alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        ((Activity)context).finish();
                         android.os.Process.killProcess(android.os.Process.myPid());
                         System.exit(1);
                     }
