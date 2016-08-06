@@ -20,11 +20,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import geotzinos.crowdgaming.Controller.AnswerQuestionGroupActivity;
+import geotzinos.crowdgaming.Controller.LoginPageActivity;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
@@ -97,6 +99,24 @@ public class PlayQuestionnairePageRequest {
                     resetButton.setClickable(true);
                     resetButton.setActivated(true);
                 }
+
+                final String errorMessage = ErrorParser.ResponseError(error);
+                if(errorMessage.equals("Please check your internet connection."))
+                {
+                    File dir = context.getFilesDir();
+                    File file = new File(dir, "user.txt");
+                    if(file.exists())
+                    {
+                        file.delete();
+                    }
+                    Intent intent = new Intent(context, LoginPageActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    ((Activity)context).startActivity(intent);
+                    ((Activity)context).finish();
+                    return;
+                }
+
                 Effect.CloseSpinner();
                 Effect.Alert(context, "You can't reset this questionnaire.", "Got it");
             }
@@ -169,6 +189,8 @@ public class PlayQuestionnairePageRequest {
                                 intent.putExtra("question", question);
                                 intent.putExtra("questionnaire", questionnaire);
                                 intent.putExtra("group_id",group_id);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                                 context.startActivity(intent);
                                 ((Activity) context).finish();
                                 Effect.Log("Class PlayQuestionnairePageRequest", "Get question request completed.");
@@ -187,11 +209,30 @@ public class PlayQuestionnairePageRequest {
                         playButton.setClickable(true);
                         playButton.setActivated(true);
                     }
+
+                    final String errorMessage = ErrorParser.ResponseError(error);
+
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setMessage(ErrorParser.ResponseError(error))
+                    alert.setMessage(errorMessage)
                             .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if(errorMessage.equals("Please check your internet connection."))
+                                    {
+                                        File dir = context.getFilesDir();
+                                        File file = new File(dir, "user.txt");
+                                        if(file.exists())
+                                        {
+                                            file.delete();
+                                        }
+                                        Intent intent = new Intent(context, LoginPageActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                        ((Activity)context).startActivity(intent);
+                                        ((Activity)context).finish();
+                                        return;
+                                    }
+
                                     JsonObjectRequest request = new MyQuestionnairesPageRequest().GetQuestionGroups(context, user, questionnaire,null);
                                     RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                     mRequestQueue.add(request);
