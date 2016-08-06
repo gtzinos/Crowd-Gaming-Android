@@ -7,7 +7,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Button;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -27,6 +34,7 @@ import geotzinos.crowdgaming.Controller.MyQuestionnairesActiviry;
 import geotzinos.crowdgaming.General.Calculation;
 import geotzinos.crowdgaming.General.Config;
 import geotzinos.crowdgaming.General.Effect;
+import geotzinos.crowdgaming.General.ErrorParser;
 import geotzinos.crowdgaming.Model.Domain.User;
 
 /**
@@ -44,7 +52,7 @@ public class LoginPageRequest {
         params.put("email", email);
         params.put("password", password);
 
-        JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(params),
+        final JsonObjectRequest request = new JsonObjectRequest(URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -93,20 +101,16 @@ public class LoginPageRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Effect.CloseSpinner();
-                Effect.Alert(context, "Wrong username or password.", "Got it");
+                Effect.Alert(context,ErrorParser.ResponseError(error),"Got It");
                 LoginButton.setEnabled(true);
             }
         })
         {
+
              //In your extended request class
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError){
-                if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                    volleyError = error;
-                }
-
-                return volleyError;
+                return ErrorParser.NetworkErrors(volleyError);
             }
         };
         return request;
