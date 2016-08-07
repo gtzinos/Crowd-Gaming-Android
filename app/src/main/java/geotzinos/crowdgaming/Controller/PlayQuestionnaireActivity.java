@@ -548,6 +548,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
     //Check if a questionnaire is completed. Will redirect user to his questionnaires page
     public void CheckIfCompleted() {
         boolean completed = true;
+        final Context context = this;
 
         for(int i=0;i<questionnaire.getQuestionGroupsList().size();i++)
         {
@@ -570,6 +571,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                             startActivity(intent);
+                            ((Activity)context).finish();
                         }
                     })
                     .create()
@@ -621,7 +623,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         ((Activity)context).finish();
                         android.os.Process.killProcess(android.os.Process.myPid());
-                        System.exit(1);
+                        System.exit(0);
                     }
                 });
                 exit_alert.setNegativeButton("Cancel",null);
