@@ -538,7 +538,7 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         ((Activity)context).finish();
                         android.os.Process.killProcess(android.os.Process.myPid());
-                        System.exit(1);
+                        System.exit(0);
                     }
                 });
                 exit_alert.setNegativeButton("Cancel",null);
