@@ -50,7 +50,7 @@ import geotzinos.crowdgaming.Model.Domain.Questionnaire;
 import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 
-public class PlayQuestionnaireActivity extends AppCompatActivity
+public class PlayQuestionnaireActivity extends BaseController
         implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener,
@@ -93,6 +93,10 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        CheckInternetPermissions();
+        CheckAccessFineLocationPermissions();
+        CheckAccessCoarseLocationPermissions();
 
         //Initialization
         setContentView(R.layout.play_questionnaire_view);
@@ -561,7 +565,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
 
         if(completed)
         {
-            android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setMessage("Questionnaire completed. you will be redirected to your questionnaires page.")
                     .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                         @Override
@@ -593,7 +597,7 @@ public class PlayQuestionnaireActivity extends AppCompatActivity
         switch(item.getItemId())
         {
             case R.id.user_sign_out:
-                android.support.v7.app.AlertDialog.Builder signout_alert = new android.support.v7.app.AlertDialog.Builder(this);
+                AlertDialog.Builder signout_alert = new AlertDialog.Builder(this);
                 signout_alert.setMessage("Do you really want to log out ?");
                 signout_alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
