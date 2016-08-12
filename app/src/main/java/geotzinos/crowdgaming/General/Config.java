@@ -14,6 +14,15 @@ public class Config {
     //Mysqli database name
     public final static String LOCAL_DATABASE_NAME = "CrowdGaming";
 
+    //Permissions for INTERNET code
+    public final static int MY_PERMISSIONS_INTERNET_REQUEST_CODE = 750;
+
+    //Permissions for ACCESS_FINE_LOCATION code
+    public final static int MY_PERMISSIONS_ACCESS_FINE_LOCATION_REQUEST_CODE = 751;
+
+    //Permissions for ACCESS_COARSE_LOCATION code
+    public final static int MY_PERMISSIONS_ACCESS_COARSE_LOCATION_REQUEST_CODE = 752;
+
     //Application name
     public final static String SHORT_APP_NAME = "Crowd Game";
 
