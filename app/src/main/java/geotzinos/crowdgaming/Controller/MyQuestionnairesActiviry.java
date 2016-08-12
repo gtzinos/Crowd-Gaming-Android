@@ -1,10 +1,12 @@
 package geotzinos.crowdgaming.Controller;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -22,7 +24,7 @@ import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
 
-public class MyQuestionnairesActiviry extends AppCompatActivity {
+public class MyQuestionnairesActiviry extends BaseController {
     /* Variables */
     private ListView listView;
 
@@ -35,6 +37,11 @@ public class MyQuestionnairesActiviry extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //Check permissions
+        CheckInternetPermissions();
+        CheckAccessFineLocationPermissions();
+        CheckAccessCoarseLocationPermissions();
+
         Intent intent = getIntent();
         User user = (User) intent.getSerializableExtra("user");
         listView = (ListView) findViewById(R.id.MyQuestionnairesListView);
