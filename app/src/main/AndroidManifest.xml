@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="geotzinos.crowdgaming">
+    package="tzinos.crowdgaming">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Controller.LoginPageActivity"
+            android:name="tzinos.crowdgaming.Controller.LoginPageActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,12 +22,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Controller.MyQuestionnairesActiviry"
+            android:name="tzinos.crowdgaming.Controller.MyQuestionnairesActiviry"
             android:noHistory="true" />
         <activity
-            android:name=".Controller.PlayQuestionnaireActivity"></activity>
+            android:name="tzinos.crowdgaming.Controller.PlayQuestionnaireActivity"></activity>
         <activity
-            android:name=".Controller.AnswerQuestionGroupActivity" ></activity>
+            android:name="tzinos.crowdgaming.Controller.AnswerQuestionGroupActivity" ></activity>
     </application>
 
 </manifest>
