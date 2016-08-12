@@ -1,10 +1,14 @@
 package geotzinos.crowdgaming.Controller;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +39,7 @@ import geotzinos.crowdgaming.Model.Domain.User;
 import geotzinos.crowdgaming.R;
 import geotzinos.crowdgaming.Request.LoginPageRequest;
 
-public class LoginPageActivity extends AppCompatActivity {
+public class LoginPageActivity extends BaseController {
     //UI Elements
     private EditText etEmail;
     private EditText etPassword;
@@ -46,6 +50,10 @@ public class LoginPageActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page_view);
+
+        CheckInternetPermissions();
+        CheckAccessFineLocationPermissions();
+        CheckAccessCoarseLocationPermissions();
 
         User user = new User();
         try {
@@ -152,20 +160,10 @@ public class LoginPageActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.guest_close:
-                AlertDialog.Builder exit_alert = new AlertDialog.Builder(this);
-                exit_alert.setMessage("Do you really want to close this application ?");
-                exit_alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((Activity)context).finish();
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                        System.exit(0);
-                    }
-                });
-                exit_alert.setNegativeButton("Cancel",null);
-                exit_alert.show();
+                AskToCloseApplication(context);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
