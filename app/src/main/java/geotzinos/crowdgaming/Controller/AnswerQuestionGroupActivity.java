@@ -54,7 +54,7 @@ import geotzinos.crowdgaming.R;
 import geotzinos.crowdgaming.Request.AnswerQuestionGroupPageRequest;
 import geotzinos.crowdgaming.Request.MyQuestionnairesPageRequest;
 
-public class AnswerQuestionGroupActivity  extends AppCompatActivity
+public class AnswerQuestionGroupActivity  extends BaseController
         implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener,
@@ -106,6 +106,11 @@ public class AnswerQuestionGroupActivity  extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.answer_question_group_view);
+
+        //Check permissions
+        CheckInternetPermissions();
+        CheckAccessFineLocationPermissions();
+        CheckAccessCoarseLocationPermissions();
 
         //Initialization
         questionTimeTextView = (TextView) findViewById(R.id.QuestionTimeTextView);
