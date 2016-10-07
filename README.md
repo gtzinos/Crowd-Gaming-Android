@@ -4,7 +4,7 @@ Playstore:
 https://play.google.com/store/apps/details?id=tzinos.crowdgaming
 
 Testing Builds:
-https://crowd-gaming.tzinos.me
+https://crowdgaming.it.teithe.gr/
 https://crowd-gaming.skourtis.me
 
 This is a client for the Crowd Gaming web application https://github.com/gtzinos/Crowd-Gaming.
